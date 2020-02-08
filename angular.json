@@ -28,9 +28,10 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/bulma/bulma.sass",
               "src/styles.scss"
-            ],
-            "scripts": []
+            ]
           },
           "configurations": {
             "production": {
@@ -93,9 +94,10 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/font-awesome/css/font-awesome.css",
+              "node_modules/bulma/bulma.sass",
               "src/styles.scss"
-            ],
-            "scripts": []
+            ]
           }
         },
         "lint": {
