@@ -126,6 +126,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "ng-printhouse"
+    }
+  },
+  "defaultProject": "ng-printhouse",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

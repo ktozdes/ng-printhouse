@@ -1,8 +1,8 @@
-<form action="" class="box">
+<form class="box" (ngSubmit)="onSubmit(loginForm)">
     <div class="field">
         <label for="" class="label">Логин</label>
         <div class="control has-icons-left">
-            <input type="email" placeholder="printhouse" class="input" required>
+            <input type="text" [(ngModel)]="user.name" name="name" placeholder="printhouse" class="input" required>
             <span class="icon is-small is-left">
             <i class="fa fa-envelope"></i>
             </span>
@@ -11,14 +11,14 @@
     <div class="field">
         <label for="" class="label">Пароль</label>
         <div class="control has-icons-left">
-            <input type="password" placeholder="*******" class="input" required>
+            <input type="password"  [(ngModel)]="user.password" name="password" placeholder="пароль" class="input" required>
             <span class="icon is-small is-left">
             <i class="fa fa-lock"></i>
             </span>
         </div>
     </div>
-    <div class="field ">
-        <button class="button is-success">
+    <div class="field">
+        <button type="submit" class="button is-success">
             Зайти
         </button>
     </div>
