@@ -1,4 +1,8 @@
 <form class="box" (ngSubmit)="onSubmit(loginForm)">
+    <div class="notification is-danger is-light" *ngIf="errorMessage">
+        {{errorMessage}}
+      </div>
+
     <div class="field">
         <label for="" class="label">Логин</label>
         <div class="control has-icons-left">
