@@ -26,7 +26,6 @@ export class RegistrationComponent implements OnInit {
 
   ngOnInit() {
     this.getState.subscribe((state) => {
-      console.log(state);
       this.errorMessage = state.errorMessage;
       this.errors = state.errors;
     });
