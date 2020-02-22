@@ -22,4 +22,18 @@ export class AuthorizationService {
   resetPassword() {
     return this.http.get('/movies');
   }
+  checkLoginExpiration(): void {
+    const loginDateString = localStorage.getItem('login_date');
+    if (loginDateString) {
+      const loginDate = new Date(loginDateString);
+      const todayDate = new Date();
+      const diffTime = Math.abs(todayDate.getTime() - loginDate.getTime());
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+      if (diffDays > 1) {
+        console.log('logout expire');
+        localStorage.removeItem('login_date');
+        localStorage.removeItem('token');
+      }
+    }
+  }
 }

@@ -1,0 +1,16 @@
+<section class="section is-medium">
+<div class="container">
+    <div class="columns is-vcentered">
+    <div class="column has-text-centered">
+        <h1 class="title">404 Страницы не существует</h1>
+        <p class="subtitle">Что-то произошло не так. Пожалюста, попробуйте снова</p>
+        <a class="button" routerLink="/auth">Вернуться на главную страницу</a>
+        <a class="button" href="javascript:void(0);"(click)="showModalInfo()">Связяться с нами</a>
+    </div>
+    <div class="column has-text-centered">
+        <img src="../../../assets/images/404-robot.gif" />
+    </div>
+    </div>
+</div>
+</section>
+<app-modal-info *ngIf="showModal" [title]="popupTitle" [content]="popupContent" (closePopup)="showModal=false"></app-modal-info>

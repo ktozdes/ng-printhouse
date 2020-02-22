@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AuthorizationRoutingModule } from './authorization-routing.module';
 import { AuthorizationComponent } from './authorization.component';
@@ -15,6 +15,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     AuthorizationRoutingModule,
     SharedModule
   ],

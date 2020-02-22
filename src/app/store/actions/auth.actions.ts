@@ -19,6 +19,10 @@ export const logout = createAction(
   '[Auth] Logout',
   props<{ name: string; password: string }>()
 );
+export const logoutExpire = createAction(
+  '[Auth] Logout Expire',
+  props<{}>()
+);
 export const logoutSuccess = createAction(
   '[Auth] Logout Success',
   props<{ name: string; password: string }>()
@@ -34,9 +38,17 @@ export const register = createAction(
 );
 export const registerSuccess = createAction(
   '[Auth] Register Success',
-  props<{ user: User }>()
+  props<{ successMessage: string, user: User }>()
 );
 export const registerError = createAction(
   '[Auth] Register Error',
-  props<{ errorMessage: string }>()
+  props<{ errorMessage: string, errors: [] }>()
+);
+export const clearErrorMessages = createAction(
+  '[Auth] Clear Error Messages',
+  props<{ errorMessage: string, errors: [] }>()
+);
+export const clearSuccessMessages = createAction(
+  '[Auth] Clear Success Messages',
+  props<{ successMesssage: string}>()
 );

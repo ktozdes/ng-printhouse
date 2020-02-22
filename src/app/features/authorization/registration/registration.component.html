@@ -5,29 +5,83 @@
     <div class="column">
         <h1 class="title is-2">Регистрация</h1>
         <div class="register-column"> 
-            <form action="" class="box">
+            <div class="notification is-danger is-light" *ngIf="errorMessage">
+                {{errorMessage}}
+                <div class="log" *ngFor="let error of errors | keyvalue">
+                    <div class="help"><strong>{{error.key}}</strong>: <span>{{error.value}}</span></div>
+              </div>
+            </div>
+            <form name="form" (ngSubmit)="f.form.valid && onSubmit(f)" class="box" #f="ngForm"> 
                 <div class="field">
                     <label for="" class="label">Логин</label>
                     <div class="control has-icons-left">
-                        <input type="text" placeholder="almazbek_printhouse" class="input" required>
+                        <input type="text" [(ngModel)]="user.name" #name="ngModel" name="name" [ngClass]="{ 'is-danger': f.submitted && name.invalid }" placeholder="Алмазбек Алмазбеков Алмазбекович" class="input" required>
                         <span class="icon is-small is-left">
-                        <i class="fa fa-envelope"></i>
+                        <i class="fa fa-user"></i>
+                        </span>
+                        <span class="icon is-small is-right has-text-warning">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </span>
+                    </div>
+                    <div *ngIf="name.invalid && (name.dirty || name.touched || f.submitted)"
+                        class="help is-danger">
+                            Объязательное поле
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">ФИО</label>
+                    <div class="control has-icons-left">
+                        <input type="text" [(ngModel)]="user.fullname" name="fullname" placeholder="almazbek_printhouse" class="input">
+                        <span class="icon is-small is-left">
+                        <i class="fa fa-user"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
-                    <label for="" class="label">Телефон</label>
+                    <label for="" class="label">Компания</label>
                     <div class="control has-icons-left">
-                        <input type="text" placeholder="(555)99 99 99" class="input" required>
+                        <input type="text" [(ngModel)]="user.company" #company="ngModel" name="company" [ngClass]="{ 'is-danger': f.submitted && company.invalid }" placeholder="принтхаус" class="input" required>
                         <span class="icon is-small is-left">
-                        <i class="fa fa-envelope"></i>
+                            <i class="fa fa-building"></i>
+                        </span>
+                        <span class="icon is-small is-right has-text-warning">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </span>
+                    </div>
+                    <div *ngIf="company.invalid && (company.dirty || company.touched || f.submitted)"
+                        class="help is-danger">
+                        Объязательное поле
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Телефон 1</label>
+                    <div class="control has-icons-left">
+                        <input type="text" [(ngModel)]="user.phone1" #phone1="ngModel" name="phone1" [ngClass]="{ 'is-danger': f.submitted && phone1.invalid }" placeholder="(555)99 99 99" class="input" required>
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-phone"></i>
+                        </span>
+                        <span class="icon is-small is-right has-text-warning">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </span>
+                    </div>
+                    <div *ngIf="phone1.invalid && (phone1.dirty || phone1.touched || f.submitted)"
+                        class="help is-danger">
+                        Объязательное поле
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="" class="label">Телефон 2</label>
+                    <div class="control has-icons-left">
+                        <input type="text" [(ngModel)]="user.phone2" name="phone2" placeholder="(555)99 99 99" class="input">
+                        <span class="icon is-small is-left">
+                        <i class="fa fa-phone"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
                     <label for="" class="label">Электронный Адрес</label>
                     <div class="control has-icons-left">
-                        <input type="email" placeholder="almazbek@printhouse.kg" class="input">
+                        <input type="email" [(ngModel)]="user.email" name="email" placeholder="almazbek@printhouse.kg" class="input">
                         <span class="icon is-small is-left">
                         <i class="fa fa-envelope"></i>
                         </span>
@@ -36,53 +90,57 @@
                 <div class="field">
                     <label for="" class="label">Адрес</label>
                     <div class="control has-icons-left">
-                        <input type="text" placeholder="ул. Киевская 12" class="input">
+                        <input type="text" [(ngModel)]="user.address" name="address" placeholder="ул. Киевская 12" class="input">
                         <span class="icon is-small is-left">
-                        <i class="fa fa-envelope"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="" class="label">Компания</label>
-                    <div class="control has-icons-left">
-                        <input type="text" placeholder="принтхаус" class="input" required>
-                        <span class="icon is-small is-left">
-                        <i class="fa fa-envelope"></i>
-                        </span>
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="" class="label">ФИО</label>
-                    <div class="control has-icons-left">
-                        <input type="text" placeholder="Алмазбеков Алмазбек Алмазбекович" class="input">
-                        <span class="icon is-small is-left">
-                        <i class="fa fa-lock"></i>
+                        <i class="fa fa-home"></i>
                         </span>
                     </div>
                 </div>
                 <div class="field">
                     <label for="" class="label">Пароль</label>
                     <div class="control has-icons-left">
-                        <input type="password" placeholder="*******" class="input" required>
+                        <input type="password"  [(ngModel)]="user.password" #password="ngModel" name="password" [ngClass]="{ 'is-danger': f.submitted && password.invalid }" placeholder="*******" class="input" required>
                         <span class="icon is-small is-left">
-                        <i class="fa fa-lock"></i>
+                            <i class="fa fa-lock"></i>
                         </span>
+                        <span class="icon is-small is-right has-text-warning">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </span>
+                    </div>
+                    <div *ngIf="password.invalid && (password.dirty || password.touched || f.submitted)"
+                        class="help is-danger">
+                        Объязательное поле
                     </div>
                 </div>
                 <div class="field">
                     <label for="" class="label">Повторить Пароль</label>
                     <div class="control has-icons-left">
-                        <input type="password" placeholder="*******" class="input" required>
+                        <input type="password" placeholder="*******" [(ngModel)]="user.repeatPassword" #repeatPassword="ngModel" name="repeatPassword" [ngClass]="{ 'is-danger': f.submitted && repeatPassword.invalid }" class="input" required>
                         <span class="icon is-small is-left">
-                        <i class="fa fa-lock"></i>
+                            <i class="fa fa-lock"></i>
                         </span>
+                        <span class="icon is-small is-right has-text-warning">
+                            <i class="fa fa-exclamation-triangle"></i>
+                        </span>
+                    </div>
+                    
+                    
+                    <div *ngIf="repeatPassword.invalid && (repeatPassword.dirty || repeatPassword.touched || f.submitted)"
+                        class="help is-danger">
+                        Объязательное поле
+                        <div *ngIf="repeatPassword.hasError('mismatch')">
+                            Поля Паролей не совпадают
+                        </div>
                     </div>
                 </div>
                 <div class="field">
                     <label class="checkbox">
-                        <input type="checkbox" required>
-                        Я Согласен с <a href="#">условиями</a>
-                      </label>
+                        <input type="checkbox" required [(ngModel)]="user.acceptCondition" #acceptCondition="ngModel" name="acceptCondition" >
+                        Я Согласен с </label> <a href="javascript:void(0)" (click)="showModalInfo()"> условиями</a>
+                      <div *ngIf="acceptCondition.invalid && (acceptCondition.dirty || acceptCondition.touched || f.submitted)"
+                        class="help is-danger">
+                            Вы должны согласиться с условиями.
+                        </div>
                 </div>
                 
                 <div class="field ">
@@ -103,3 +161,5 @@
     </div>
     <div class="column is-1"></div>
 </div>
+
+<app-modal-info *ngIf="showModal" [title]="popupTitle" [content]="popupContent" (closePopup)="showModal=false"></app-modal-info>

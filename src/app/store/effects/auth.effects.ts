@@ -14,14 +14,14 @@ export class AuthEffects {
     mergeMap((payload) => this.authorizationService.login(payload.name, payload.password)
       .pipe(
         map(login => {
-          console.log(login);
           localStorage.setItem('token', login.token);
+          localStorage.setItem('login_date', (new Date()).toUTCString() );
           this.router.navigateByUrl('/dashboard');
           return { type: '[Auth] Login Success', token: login.token };
         }),
         catchError((err) => {
           console.log('err', err);
-          return of({ type: '[Auth] Login Error', errorMessage: 'Не правильный логин или пароль.' })
+          return of({ type: '[Auth] Login Error', errorMessage: 'Не правильный логин или пароль.' });
         })
       )
     )
@@ -32,12 +32,14 @@ export class AuthEffects {
     mergeMap((payload) => this.authorizationService.register(payload.user)
       .pipe(
         map(user => {
-          console.log(user);
-          return { type: '[Auth] Register Success', user };
+          this.router.navigateByUrl('/auth');
+          return { type: '[Auth] Register Success', successMessage: 'Новый пользователь создан.' };
         }),
         catchError((err) => {
           console.log('err', err);
-          return of({ type: '[Auth] Register Error', errorMessage: 'Произошла ошибка при регистрации. Проверьте поля.' })
+          return of({ type: '[Auth] Register Error',
+                      errorMessage: 'Произошла ошибка при регистрации. Проверьте поля.',
+                      errors: err.error.errors });
         })
       )
     )

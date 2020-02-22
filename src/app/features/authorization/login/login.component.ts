@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   user: User = new User();
   getState: Observable<any>;
   errorMessage: string | null;
+  successMessage: string | null;
   constructor(private store: Store <any>
     ) {
       this.getState = this.store.select(authState);
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
     this.getState.subscribe((state) => {
       console.log(state);
       this.errorMessage = state.errorMessage;
+      this.successMessage = state.successMessage;
     });
   }
 

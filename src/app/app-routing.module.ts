@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { CarouselComponent } from './shared/carousel/carousel.component';
-import { AppComponent } from './app.component';
+import { PageNotFoundComponent } from './features/page-not-found/page-not-found.component';
 
 
 const routes: Routes = [
@@ -18,13 +17,14 @@ const routes: Routes = [
     loadChildren: () => import('./features/authorization/authorization.module').then(m => m.AuthorizationModule)
   },
   {
-    path: 'carousel',
-    component: CarouselComponent
+    path: '',
+    loadChildren: () => import('./features/authorization/authorization.module').then(m => m.AuthorizationModule)
   },
   {
-    path: '',
-    component: AppComponent
-  }
+    path: 'dashboard',
+    loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule) 
+  },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({

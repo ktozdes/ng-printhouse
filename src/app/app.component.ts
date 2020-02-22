@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthorizationService } from './services/authorization.service';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,9 @@ import { Component, OnInit } from '@angular/core';
 
 export class AppComponent implements OnInit {
   title = 'printhouse';
+  constructor(private authorizationService: AuthorizationService) { }
   ngOnInit() {
+   this.authorizationService.checkLoginExpiration();
   }
 }
 
