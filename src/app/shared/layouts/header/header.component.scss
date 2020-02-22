@@ -1,0 +1,11 @@
+.box {
+    margin: 0;
+    padding: 0 0.2rem;
+    .media{
+        align-items: center;
+    }
+    @media (max-width: 1024px) {
+        display: inline-block;
+        margin-left: 0.5rem;
+      }
+}

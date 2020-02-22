@@ -1,27 +1,40 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 import {CarouselComponent} from './carousel/carousel.component';
-import { HeaderComponent } from './header/header.component';
 import { ModalInfoComponent } from './modalInfo/modalInfo.component';
 import { MustMatchDirective } from './directives/must-match.directive';
 
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { HeaderComponent } from './layouts/header/header.component';
+import { FooterComponent } from './layouts/footer/footer.component';
+import { SidebarComponent } from './layouts/sidebar/sidebar.component';
+import { NotificationComponent } from './notification/notification.component';
 
 
 @NgModule({
   declarations: [
     CarouselComponent,
-    HeaderComponent,
     ModalInfoComponent,
-    
-    MustMatchDirective
+    MustMatchDirective,
+
+    MainLayoutComponent,
+    HeaderComponent,
+    FooterComponent,
+    SidebarComponent,
+    NotificationComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule
   ],
   exports: [
+    RouterModule,
     CarouselComponent,
-    HeaderComponent,
-    ModalInfoComponent
+    ModalInfoComponent,
+    MainLayoutComponent
   ]
 })
-export class SharedModule { }
+export class SharedModule {
+}
