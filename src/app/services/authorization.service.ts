@@ -3,12 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
+import { Store } from '@ngrx/store';
+import { signBack } from 'src/app/store/actions/auth.actions';
 @Injectable({
   providedIn: 'root'
 })
 export class AuthorizationService {
-
-  constructor(private http: HttpClient) {
+  token: string;
+  constructor(
+    private http: HttpClient,
+    private store: Store <any>) {
   }
   login(name: string, password: string): Observable<any> {
     return this.http.post(`${environment.backendUrl}/login`, { name, password});
@@ -22,6 +26,9 @@ export class AuthorizationService {
   resetPassword() {
     return this.http.get('/movies');
   }
+  signBack(token) {
+    return this.http.post(`${environment.backendUrl}/signback`, {api_token: token});
+  }
   checkLoginExpiration(): void {
     const loginDateString = localStorage.getItem('login_date');
     if (loginDateString) {
@@ -33,6 +40,8 @@ export class AuthorizationService {
         console.log('logout expire');
         localStorage.removeItem('login_date');
         localStorage.removeItem('token');
+      } else {
+        this.store.dispatch(signBack({ token: localStorage.getItem('token') }));
       }
     }
   }

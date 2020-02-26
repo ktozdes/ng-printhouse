@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../models/user';
-import { AppState, authState} from 'src/app/store/app-state';
+import { authState } from 'src/app/store/app-state';
 import { Store } from '@ngrx/store';
 import { login } from 'src/app/store/actions/auth.actions';
 import { Observable } from 'rxjs';

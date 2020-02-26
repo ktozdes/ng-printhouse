@@ -3,8 +3,9 @@
       General
     </p>
     <ul class="menu-list">
-      <li><a routerLink="/dashboard"class="is-active">Dashboard</a></li>
-      <li><a routerLink="/dashboard/order">Order</a></li>
+      <li><a routerLink="/dashboard" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
+        true}">Dashboard</a></li>
+      <li><a routerLink="/dashboard/order" routerLinkActive="is-active">Order</a></li>
     </ul>
     <p class="menu-label">
       Administration

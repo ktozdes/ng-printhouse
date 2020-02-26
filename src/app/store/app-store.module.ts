@@ -1,17 +1,18 @@
 import { NgModule } from '@angular/core';
 
 import {EffectsModule} from '@ngrx/effects';
-import {ActionReducerMap, StoreModule} from '@ngrx/store';
-import {routerReducer, StoreRouterConnectingModule} from '@ngrx/router-store';
-import { AppState, reducers } from './app-state';
+import { StoreModule} from '@ngrx/store';
+import { reducers } from './app-state';
 import { AuthEffects } from './effects/auth.effects';
+import { UserEffects } from './effects/user.effects';
 
 
 @NgModule({
   declarations: [],
   imports: [
     EffectsModule.forRoot([
-      AuthEffects
+      AuthEffects,
+      UserEffects
     ]),
     StoreModule.forRoot(reducers),
   ]

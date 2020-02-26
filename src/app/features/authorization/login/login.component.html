@@ -1,9 +1,9 @@
 <form class="box" (ngSubmit)="onSubmit(loginForm)">
-    <div class="notification is-danger is-light" *ngIf="errorMessage">
+    <div class="help is-danger is-light" *ngIf="errorMessage">
         {{errorMessage}}
     </div>
 
-    <div class="notification is-success is-light" *ngIf="successMessage">
+    <div class="help is-success is-light" *ngIf="successMessage">
         {{successMessage}}
     </div>
 

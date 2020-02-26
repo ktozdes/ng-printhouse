@@ -3,11 +3,15 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './features/page-not-found/page-not-found.component';
 import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component';
 
+import { AuthGuard } from './shared/guards/auth.guard';
+
+
 
 const routes: Routes = [
   {
     path: 'dashboard',
     component: MainLayoutComponent,
+    canLoad: [AuthGuard],
     children: [
       {
         path: '',

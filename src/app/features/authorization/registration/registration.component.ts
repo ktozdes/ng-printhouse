@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { register } from 'src/app/store/actions/auth.actions';
 import { NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { AppState, authState} from 'src/app/store/app-state';
+import { authState} from 'src/app/store/app-state';
 
 @Component({
   selector: 'app-registration',

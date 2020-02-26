@@ -9,19 +9,20 @@ import { RouterOutlet, Router,
 })
 export class MainLayoutComponent implements OnInit {
   routerLoading = false;
-  constructor(private router: Router) { }
+  constructor(private router: Router
+    ) {
+    }
 
   ngOnInit() {
     this.router.events.subscribe((event: Event) => {
         if (event instanceof NavigationStart) {
           this.routerLoading = true;
-        }
-        else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
+        } else if (event instanceof NavigationEnd || event instanceof NavigationCancel || event instanceof NavigationError) {
           setTimeout(() => {
             this.routerLoading = false;
           }, 1000 );
         }
-      });
+    });
   }
 
 }

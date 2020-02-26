@@ -9,9 +9,10 @@ import { AuthorizationService } from './services/authorization.service';
 
 export class AppComponent implements OnInit {
   title = 'printhouse';
-  constructor(private authorizationService: AuthorizationService) { }
+  constructor(private authorizationService: AuthorizationService) {
+    this.authorizationService.checkLoginExpiration();
+  }
   ngOnInit() {
-   this.authorizationService.checkLoginExpiration();
   }
 }
 

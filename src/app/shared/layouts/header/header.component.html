@@ -2,7 +2,7 @@
     <div class="hero-head">
         <nav class="navbar" role="navigation" aria-label="main navigation">
             <div class="navbar-brand">
-              <a class="navbar-item" href="https://bulma.io">
+              <a class="navbar-item" routerLink="/dashboard">
                 <img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">
               </a>
           
@@ -25,14 +25,16 @@
               </div>
           
               <div class="navbar-end">
-                <div class="box">
+                <div class="box" *ngIf="thisUser">
                     <article class="media">
                       <div class="media-content">
                         <div class="content">
                             <div>
-                                <strong>Chikatilla</strong>
+                                <strong >{{thisUser.name}}</strong>
                             </div>
-                            <span class="money">5000</span><span class="currency"> som</span>
+                            <div class="has-text-white" [ngClass]="(thisUser.balance > -1)?'has-background-success':'has-background-danger'">
+                              <span class="money">{{thisUser.balance}}</span><span class="currency"> som</span>
+                            </div>
                         </div>
                       </div>
                       <span class="icon is-large">
@@ -44,8 +46,8 @@
                   </div>
                 <div class="navbar-item">
                   <div class="buttons">
-                    <a class="button is-light">
-                      Log Out
+                    <a class="button is-light" (click)="logOut()">
+                      Выйти
                     </a>
                   </div>
                 </div>
