@@ -8,7 +8,7 @@ export const getThisUser = createAction(
 
 export const getThisUserSuccess = createAction(
     '[User] Get This User Success',
-    props<{ user: User }>()
+    props<{ user: User, permissions: Array<string> }>()
 );
 
 export const getThisUserError = createAction(

@@ -1,27 +1,19 @@
 <aside class="menu">
     <p class="menu-label">
-      General
+      Основной
     </p>
     <ul class="menu-list">
       <li><a routerLink="/dashboard" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
-        true}">Dashboard</a></li>
-      <li><a routerLink="/dashboard/order" routerLinkActive="is-active">Order</a></li>
+        true}">Главная</a></li>
+      <li *ngIf="permissionGuard.showMenuItem('menu order')"><a routerLink="/dashboard/order" routerLinkActive="is-active">Заказы</a></li>
+      <li *ngIf="permissionGuard.showMenuItem('menu report')"><a routerLink="/dashboard/report" routerLinkActive="is-active">Отчет</a></li>
+      <li *ngIf="permissionGuard.showMenuItem('menu profile')"><a routerLink="/dashboard/profile" routerLinkActive="is-active">Профиль</a></li>
     </ul>
-    <p class="menu-label">
-      Administration
+    <p class="menu-label" *ngIf="permissionGuard.showMenuItem('menu payment') || permissionGuard.showMenuItem('menu storage')">
+      Администратор
     </p>
     <ul class="menu-list">
-      <li><a>Team Settings</a></li>
-      <li>
-        <a class="">Manage Your Team</a>
-        <ul>
-          <li><a>Members</a></li>
-          <li><a>Plugins</a></li>
-          <li><a>Add a member</a></li>
-        </ul>
-      </li>
-      <li><a>Invitations</a></li>
-      <li><a>Cloud Storage Environment Settings</a></li>
-      <li><a>Authentication</a></li>
+      <li *ngIf="permissionGuard.showMenuItem('menu payment')"><a routerLink="/dashboard/payment" routerLinkActive="is-active">Оплата</a></li>
+      <li *ngIf="permissionGuard.showMenuItem('menu storage')"><a routerLink="/dashboard/storage" routerLinkActive="is-active">Склад</a></li>
     </ul>
   </aside>

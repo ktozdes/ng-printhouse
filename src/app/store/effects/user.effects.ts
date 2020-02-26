@@ -13,11 +13,10 @@ export class UserEffects {
     mergeMap(() => this.userService.getThisUser()
       .pipe(
         map((data) => {
-            return { type: '[User] Get This User Success', user: data.user };
+          return { type: '[User] Get This User Success', user: data.user, permissions: data.permissions };
         }),
         catchError((err) => {
-            this.router.navigateByUrl('/auth');
-            return of({ type: '[Auth] Login Error', errorMessage: 'Пожалуйста, войдите через своего пользователя.' });
+            return of({ type: '[Auth] EMPTY'});
         })
       )
     )

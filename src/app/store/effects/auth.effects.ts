@@ -5,6 +5,8 @@ import { map, mergeMap, catchError, tap } from 'rxjs/operators';
 import * as AuthActions from '../actions/auth.actions';
 import {AuthorizationService} from '../../services/authorization.service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { getThisUser } from '../actions/user.actions';
 
 @Injectable()
 export class AuthEffects {
@@ -13,9 +15,6 @@ export class AuthEffects {
     mergeMap((payload) => this.authorizationService.login(payload.name, payload.password)
       .pipe(
         map(login => {
-          localStorage.setItem('token', login.token);
-          localStorage.setItem('login_date', (new Date()).toUTCString() );
-          this.router.navigate(['/dashboard']);
           return { type: '[Auth] Login Success', token: login.token };
         }),
         catchError((err) => {
@@ -56,40 +55,43 @@ export class AuthEffects {
     ofType( AuthActions.signBack ),
     mergeMap((payload) => this.authorizationService.signBack(payload.token)
       .pipe(
-        map(user => {
-          console.log(user);
-          return { type: '[Auth] Signback Success', successMessage: 'С Возвращением.' };
+        map(login => {
+          return { type: '[Auth] Login Success', token: login.token, successMessage: 'С Возвращением.' };
         }),
         catchError((err) => {
           console.log('err', err);
-          return of({ type: '[Auth] Signback Error',
-                      errorMessage: 'Пожалуйста, войдите через своего пользователя.'});
+          return of({ type: '[Auth] Login Error', errorMessage: 'Не правильный логин или пароль.' });
         })
       )
     )
   ));
 
-  signBackSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType( AuthActions.signBackSuccess ),
+  loginSuccess$ = createEffect(() => this.actions$.pipe(
+    ofType( AuthActions.loginSuccess ),
     map((payload) => {
+      console.log('[Auth] Login Success', payload);
       localStorage.setItem('token', payload.token);
       localStorage.setItem('login_date', (new Date()).toUTCString() );
+      this.store.dispatch(getThisUser({}));
       this.router.navigate(['/dashboard']);
-      return { type: '[Auth] SignBack EMPTY' };
+      return { type: '[Auth] EMPTY' };
     })
   ));
 
-  signBackError$ = createEffect(() => this.actions$.pipe(
-    ofType( AuthActions.signBackSuccess ),
+  loginError$ = createEffect(() => this.actions$.pipe(
+    ofType( AuthActions.loginError ),
     map((payload) => {
+      console.log('[Auth] Login Error', payload);
       localStorage.removeItem('token');
       localStorage.removeItem('login_date');
-      return { type: '[Auth] SignBack EMPTY' };
+      this.router.navigate(['/auth']);
+      return { type: '[Auth] EMPTY' };
     })
   ));
 
   constructor(private actions$: Actions,
               private authorizationService: AuthorizationService,
+              private store: Store<any>,
               private router: Router
   ) {}
 }

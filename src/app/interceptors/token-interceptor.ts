@@ -6,6 +6,7 @@ import {
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { authState } from '../store/app-state';
+import { first, flatMap } from 'rxjs/operators';
 
 /** Pass untouched request through to the next request handler. */
 @Injectable()
@@ -19,14 +20,16 @@ export class TokenInterceptor implements HttpInterceptor {
     });
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this.token) {
-      const authReq = req.clone({
-        headers: req.headers.set('Content-Type', 'application/json')
-        .set('token', this.token)
-      });
-      return next.handle(authReq);
-    } else {
-      return next.handle(req);
-    }
+    return this.store.select(authState).pipe(
+      first(),
+      flatMap(state => {
+        const authReq = !!state.token ? req.clone({
+          headers: req.headers.set('Content-Type', 'application/json')
+          .set('token', this.token)
+        }) : req;
+        //console.log('intercept', state, authReq);
+        return next.handle(authReq);
+      }),
+    );
   }
 }

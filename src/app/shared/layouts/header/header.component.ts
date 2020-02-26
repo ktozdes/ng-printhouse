@@ -14,20 +14,23 @@ import { logout } from 'src/app/store/actions/auth.actions';
 export class HeaderComponent implements OnInit {
   @Input()
   routerLoading: boolean;
+  showBurgerMenu = false;
 
   thisUser: User;
   constructor(
     private store: Store <any>
     ) {
-    this.store.dispatch(getThisUser({}));
-    const getState = this.store.select(userState);
-    getState.subscribe((state) => {
-      this.thisUser = state.user;
-      console.log(this.thisUser);
-    });
-  }
+      const getState = this.store.select(userState);
+      getState.subscribe((state) => {
+        this.thisUser = state.user;
+      });
+    }
 
   ngOnInit() {
+  }
+  toggleBurgerMenu(): void {
+    this.showBurgerMenu = !this.showBurgerMenu;
+    console.log(this.showBurgerMenu);
   }
 
   logOut() {

@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { User } from '../models/user';
 import { Store } from '@ngrx/store';
-import { signBack } from 'src/app/store/actions/auth.actions';
+import { signBack, logout } from 'src/app/store/actions/auth.actions';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,13 +20,10 @@ export class AuthorizationService {
   register(user: User): Observable<any> {
     return this.http.post(`${environment.backendUrl}/register`, user);
   }
-  logout() {
-    return this.http.get('/movies');
-  }
   resetPassword() {
     return this.http.get('/movies');
   }
-  signBack(token) {
+  signBack(token): Observable<any> {
     return this.http.post(`${environment.backendUrl}/signback`, {api_token: token});
   }
   checkLoginExpiration(): void {
@@ -43,6 +40,9 @@ export class AuthorizationService {
       } else {
         this.store.dispatch(signBack({ token: localStorage.getItem('token') }));
       }
+    }
+    else {
+      this.store.dispatch(logout({}));
     }
   }
 }

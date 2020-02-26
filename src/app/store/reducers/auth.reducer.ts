@@ -29,6 +29,7 @@ const authReducers = createReducer(
   initialState,
   on(AuthActions.loginSuccess, (state, { token }) => ({ ...state, authenticated: true, token, errorMessage: null})),
   on(AuthActions.loginError, (state, { errorMessage }) => ({ ...state, authenticated: false, token: null, errorMessage })),
+  on(AuthActions.signBackSuccess, (state, { token }) => ({ ...state, authenticated: true, token, errorMessage: null})),
   on(AuthActions.signBackError, (state, { errorMessage }) => ({ ...state, authenticated: false, token: null, errorMessage })),
 
   on(AuthActions.logoutSuccess, (state, {}) => ({ ...state, authenticated: false, token: null, errorMessage: null, successMessage: null })),

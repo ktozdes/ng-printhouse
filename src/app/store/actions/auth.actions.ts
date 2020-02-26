@@ -31,10 +31,6 @@ export const signBackError = createAction(
   '[Auth] Signback Error',
   props<{ errorMessage: string }>()
 );
-// export const loginError = createAction(
-//   '[Auth] Login Error',
-//   props<{ errorMessage: string }>()
-// );
 
 
 export const logout = createAction(

@@ -4,6 +4,7 @@ import { PageNotFoundComponent } from './features/page-not-found/page-not-found.
 import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.component';
 
 import { AuthGuard } from './shared/guards/auth.guard';
+import { PermissionGuard } from './shared/guards/permission.guard';
 
 
 
@@ -19,7 +20,33 @@ const routes: Routes = [
       },
       {
         path: 'order',
-        loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule)
+        canActivate: [PermissionGuard],
+        loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule),
+        data: {permission: 'menu order'}
+      },
+      {
+        path: 'report',
+        canActivate: [PermissionGuard],
+        loadChildren: () => import('./features/report/report.module').then(m => m.ReportModule),
+        data: {permission: 'menu report'}
+      },
+      {
+        path: 'payment',
+        canActivate: [PermissionGuard],
+        loadChildren: () => import('./features/payment/payment.module').then(m => m.PaymentModule),
+        data: {permission: 'menu payment'}
+      },
+      {
+        path: 'storage',
+        canActivate: [PermissionGuard],
+        loadChildren: () => import('./features/storage/storage.module').then(m => m.StorageModule),
+        data: {permission: 'menu storage'}
+      },
+      {
+        path: 'profile',
+        canActivate: [PermissionGuard],
+        loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule),
+        data: {permission: 'menu profile'}
       }
     ]
   },
@@ -43,7 +70,6 @@ const routes: Routes = [
     path: '**',
     component: PageNotFoundComponent
   },
-  { path: 'order', loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule) }
 ];
 
 @NgModule({
