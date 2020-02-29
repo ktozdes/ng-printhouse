@@ -1,0 +1,17 @@
+.switch.is-cyan[type=checkbox]:checked+label::before{
+    background: cyan;
+}
+
+.switch.is-magento[type=checkbox]:checked+label::before{
+    background: magenta;
+}
+
+.switch.is-yellow[type=checkbox]:checked+label::before{
+    background: yellow;
+}
+
+.switch.is-black[type=checkbox]:checked+label::before{
+    background: black;
+}
+
+

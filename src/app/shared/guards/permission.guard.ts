@@ -18,7 +18,6 @@ export class PermissionGuard implements CanActivate, CanActivateChild, CanLoad {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
     if (this.permissions.includes(next.data.permission)) {
       return true;
     }
@@ -41,8 +40,6 @@ export class PermissionGuard implements CanActivate, CanActivateChild, CanLoad {
   canLoad(
     route: Route,
     segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-      // console.log(route, segments);
-      // console.log(this.permissions, route.data.permission, this.permissions.includes(route.data.permission));
       if (this.permissions.includes(route.data.permission)) {
         return true;
       }

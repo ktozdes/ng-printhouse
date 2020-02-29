@@ -1,1 +1,134 @@
-<p>order-create works!</p>
+<div class="level">
+    <div class="level-left">
+        <div class="title">Создать Заказ</div>
+    </div>
+</div>
+
+<div class="columns is-multiline">
+    <div class="column">
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit(f)" class="box" #f="ngForm">
+            <div class="notification">
+                <div class="field">
+                    <div class="file has-name is-primary is-fullwidth">
+                    <label class="file-label">
+                        <input class="file-input" type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"/>
+                        <span class="file-cta">
+                            <span class="file-icon">
+                            <i class="fa fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Выберите PDF файл
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            {{ fileName }}
+                        </span>
+                    </label>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="control">
+                    <progress class="progress is-primary" *ngIf="file" value="{{ file.progress?.data?.percentage }}" max="100"></progress>
+                    </div>
+                </div>
+                <article class="message" >
+                    <div class="message-body">
+                        {{ infoMessage }}
+                    </div>
+                </article>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Цветность</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <input id="all" type="checkbox" name="all" class="switch is-rounded">
+                        <label for="all">Все</label>
+                    </div>
+
+                    <div class="field">
+                        <input id="c" type="checkbox" name="с" class="switch is-cyan is-rounded">
+                        <label for="c">С</label>
+                    </div>
+
+                    <div class="field">
+                        <input id="m" type="checkbox" name="m" class="switch is-magento is-rounded">
+                        <label for="m">M</label>
+                    </div>
+
+                    <div class="field">
+                        <input id="y" type="checkbox" name="y" class="switch is-yellow is-rounded">
+                        <label for="y">Y</label>
+                    </div>
+
+                    <div class="field">
+                        <input id="k" type="checkbox" name="k" class="switch is-black is-rounded">
+                        <label for="k">K</label>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Доставка</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <input id="delivery" type="checkbox" name="delivery" class="switch is-rounded">
+                        <label for="delivery">Да</label>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Выполнение</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <input id="urgent" type="checkbox" name="urgent" class="switch is-rounded">
+                        <label for="urgent">Срочно</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal" *ngIf="plates">
+                <div class="field-label">
+                  <label class="label">Размер Пластины</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="select">
+                            <select>
+                              <option *ngFor="let plate of plates" value="{{plate.id}}">{{plate.name}}</option>
+                            </select>
+                          </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Комментарий</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <textarea name="comment" class="textarea" placeholder="Допольнительные сведения"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            
+                
+            
+            <div class="field ">
+                <button class="button is-success">
+                    Регистрация
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

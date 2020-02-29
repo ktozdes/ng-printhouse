@@ -5,9 +5,17 @@
     <ul class="menu-list">
       <li><a routerLink="/dashboard" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
         true}">Главная</a></li>
-      <li *ngIf="permissionGuard.showMenuItem('menu order')"><a routerLink="/dashboard/order" routerLinkActive="is-active">Заказы</a></li>
-      <li *ngIf="permissionGuard.showMenuItem('menu report')"><a routerLink="/dashboard/report" routerLinkActive="is-active">Отчет</a></li>
-      <li *ngIf="permissionGuard.showMenuItem('menu profile')"><a routerLink="/dashboard/profile" routerLinkActive="is-active">Профиль</a></li>
+      <li *ngIf="permissionGuard.showMenuItem('menu order')"><a routerLink="/dashboard/order" [routerLinkActiveOptions]="{exact:
+        true}" routerLinkActive="is-active">Заказы</a></li>
+        <li><ul>
+          <li *ngIf="permissionGuard.showMenuItem('menu order')"><a routerLink="/dashboard/order/create" [routerLinkActiveOptions]="{exact:
+            true}" routerLinkActive="is-active">Новые Заказы</a></li>
+        </ul></li>
+      
+      <li *ngIf="permissionGuard.showMenuItem('menu report')"><a routerLink="/dashboard/report" [routerLinkActiveOptions]="{exact:
+        true}" routerLinkActive="is-active">Отчет</a></li>
+      <li *ngIf="permissionGuard.showMenuItem('menu profile')"><a routerLink="/dashboard/profile" [routerLinkActiveOptions]="{exact:
+        true}" routerLinkActive="is-active">Профиль</a></li>
     </ul>
     <p class="menu-label" *ngIf="permissionGuard.showMenuItem('menu payment') || permissionGuard.showMenuItem('menu storage')">
       Администратор

@@ -5,10 +5,15 @@ import { MainLayoutComponent } from './shared/layouts/main-layout/main-layout.co
 
 import { AuthGuard } from './shared/guards/auth.guard';
 import { PermissionGuard } from './shared/guards/permission.guard';
+import { SimpleDemoComponent } from './simple-demo-component/simple-demo-component.component';
 
 
 
 const routes: Routes = [
+  {
+    path: 'upload',
+    component: SimpleDemoComponent
+  },
   {
     path: 'dashboard',
     component: MainLayoutComponent,
@@ -52,14 +57,6 @@ const routes: Routes = [
   },
   {
     path: 'auth',
-    loadChildren: () => import('./features/authorization/authorization.module').then(m => m.AuthorizationModule)
-  },
-  {
-    path: 'register',
-    loadChildren: () => import('./features/authorization/authorization.module').then(m => m.AuthorizationModule)
-  },
-  {
-    path: 'reset-password',
     loadChildren: () => import('./features/authorization/authorization.module').then(m => m.AuthorizationModule)
   },
   {

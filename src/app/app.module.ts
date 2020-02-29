@@ -10,11 +10,16 @@ import { AppStoreModule } from './store/app-store.module';
 import { HttpClientModule } from '@angular/common/http';
 import { PageNotFoundComponent } from './features/page-not-found/page-not-found.component';
 
+import { NgxUploaderModule } from 'ngx-uploader';
+import { SimpleDemoComponent } from './simple-demo-component/simple-demo-component.component';
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    SimpleDemoComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +27,8 @@ import { PageNotFoundComponent } from './features/page-not-found/page-not-found.
     BrowserAnimationsModule,
     AppRoutingModule,
     SharedModule,
-    AppStoreModule
+    AppStoreModule,
+    NgxUploaderModule
   ],
   exports: [
   ],
