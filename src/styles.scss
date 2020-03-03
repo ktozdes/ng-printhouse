@@ -2,3 +2,8 @@
 @import 'app/styles/colors';
 @import 'app/styles/variables';
 @import 'app/styles/mixins';
+
+.notification.is-error {
+    background-color: #f14668;
+    color: #fff;
+}

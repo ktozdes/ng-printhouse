@@ -12,7 +12,6 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { NotificationComponent } from './notification/notification.component';
 
-
 @NgModule({
   declarations: [
     CarouselComponent,

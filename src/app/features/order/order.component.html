@@ -1,1 +1,59 @@
-<p>order works!</p>
+<div class="level">
+    <div class="level-left">
+        <div class="title">Список Заказов</div>
+    </div>
+</div>
+<div class="table-container">
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>C</th>
+            <th>M</th>
+            <th>Y</th>
+            <th>K</th>
+            <th>Срочно</th>
+            <th>Доставка</th>
+            <th>Адрес</th>
+            <th>Коментарий</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Статус</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orders" [attr.order-id]="order.id">
+            <td><span class="tag is-success" *ngIf='order.c'>Да</span></td>
+            <td><span class="tag is-success" *ngIf='order.m'>Да</span></td>
+            <td><span class="tag is-success" *ngIf='order.y'>Да</span></td>
+            <td><span class="tag is-success" *ngIf='order.k'>Да</span></td>
+            <td><span class="tag is-success" *ngIf='order.urgent'>Да</span></td>
+            <td><span class="tag is-success" *ngIf='order.deliver'>Да</span></td>
+            <td>{{order.address}}</td>
+            <td>{{order.comment}}</td>
+            <td>{{order.price | currency:KGS:''}} сом</td>
+            <td>{{order.quantity}}</td>
+            <td>{{order.status_id}}</td>
+            <td>
+                <div class="field has-addons" *ngIf='order.editable == 1'>
+                    <p class="control">
+                      <button class="button" (click)="edit(order.id)">
+                        <span class="icon is-small">
+                          <i class="fa fa-pencil"></i>
+                        </span>
+                        <span>Изменить</span>
+                      </button>
+                    </p>
+                    <p class="control">
+                      <button class="button is-danger" (click)="destroy(order.id)">
+                        <span class="icon is-small">
+                          <i class="fa fa-trash"></i>
+                        </span>
+                      </button>
+                    </p>
+                  </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>

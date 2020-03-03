@@ -1,19 +1,24 @@
 import { createReducer, on, Action  } from '@ngrx/store';
 import { Message } from 'src/app/models/message';
-import * as AuthActions from '../actions/user.actions';
+import * as MessageActions from '../actions/message.actions';
 
 export interface MessageState {
-  message?: Message[];
+  messages?: Message[];
 }
 
 export const initialState: MessageState = {
-    message: [],
+    messages: [],
 };
 
 const messageReducers = createReducer(
   initialState,
-  on(AuthActions.getThisUserSuccess, (state, { user, permissions }) => (
-    { ...state, user, permissions})),
+  on(MessageActions.setMessage, (state, { message }) => {
+        const tempMessages = state.messages;
+        tempMessages.push( message);
+        return { ...state, messages: tempMessages};
+    }
+    ),
+  on(MessageActions.destroyMessages, (state, {}) => ( { ...state, messages : [] })),
 );
 
 

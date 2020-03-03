@@ -5,6 +5,7 @@ import { StoreModule} from '@ngrx/store';
 import { reducers } from './app-state';
 import { AuthEffects } from './effects/auth.effects';
 import { UserEffects } from './effects/user.effects';
+import { MessageEffects } from './effects/message.effects';
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import { UserEffects } from './effects/user.effects';
   imports: [
     EffectsModule.forRoot([
       AuthEffects,
-      UserEffects
+      UserEffects,
+      MessageEffects
     ]),
     StoreModule.forRoot(reducers),
   ]

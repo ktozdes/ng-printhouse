@@ -13,13 +13,11 @@ import { PageNotFoundComponent } from './features/page-not-found/page-not-found.
 import { NgxUploaderModule } from 'ngx-uploader';
 import { SimpleDemoComponent } from './simple-demo-component/simple-demo-component.component';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
     PageNotFoundComponent,
-    SimpleDemoComponent
+    SimpleDemoComponent,
   ],
   imports: [
     BrowserModule,

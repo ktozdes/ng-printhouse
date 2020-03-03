@@ -7,34 +7,34 @@ import { environment } from 'src/environments/environment';
 
 import { UploadOutput, UploadInput, UploadFile, UploaderOptions } from 'ngx-uploader';
 import { Store } from '@ngrx/store';
-import { authState, userState } from 'src/app/store/app-state';
+import { authState } from 'src/app/store/app-state';
 import { MessageService } from 'src/app/services/message.service';
 import { FileUploaderService } from 'src/app/services/file-uploader.service';
 import { OrderService } from 'src/app/services/order.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-order-create',
-  templateUrl: './order-create.component.html',
-  styleUrls: ['./order-create.component.scss']
+  selector: 'app-order-edit',
+  templateUrl: './order-edit.component.html',
+  styleUrls: ['./order-edit.component.scss']
 })
-export class OrderCreateComponent implements OnInit {
+export class OrderEditComponent implements OnInit {
   order: Order = new Order();
   plates: Array<Plate>;
   fileName: string;
-  fileId: number;
+  orderID: string;
   formData: FormData;
   file: UploadFile;
   uploadInput: EventEmitter<UploadInput>;
   options: UploaderOptions;
   token: string;
 
-  JSON = JSON;
   constructor(private plateService: PlateService,
               private messageService: MessageService,
               private fileUploaderService: FileUploaderService,
               private orderService: OrderService,
               private router: Router,
+              private route: ActivatedRoute,
               private store: Store <any>) {
     this.plateService.list().subscribe((response) => {
       this.plates = response.plates;
@@ -44,14 +44,26 @@ export class OrderCreateComponent implements OnInit {
     this.store.select(authState).subscribe((state) => {
         this.token = state.token;
     });
-    const getState = this.store.select(userState);
-    getState.subscribe((state) => {
-      this.order.address = state.user.address;
-    });
-
+    this.getOrder();
   }
 
   ngOnInit() {
+  }
+  getOrder(): void {
+    this.orderID = this.route.snapshot.paramMap.get('id');
+    this.orderService.edit(this.orderID).subscribe({
+      next: (res: any) => {
+        this.order = res.order;
+        this.order.plateId = res.order.plate_id;
+        if ( this.order.c && this.order.m && this.order.y && this.order.k) {
+          this.order.all = true;
+        }
+        this.order.file = res.file;
+      },
+      error: null,
+      complete: () => {
+      }
+    });
   }
 
   onUploadOutput(output: UploadOutput): void {
@@ -60,6 +72,7 @@ export class OrderCreateComponent implements OnInit {
         type: 'uploadAll',
         url: `${environment.backendUrl}/file/upload`,
         method: 'POST',
+        data: { orderID: this.order.id.toString() },
         headers: {
           token: this.token
         }
@@ -67,31 +80,31 @@ export class OrderCreateComponent implements OnInit {
       this.uploadInput.emit(event);
     } else if (output.type === 'addedToQueue' && typeof output.file !== 'undefined') {
       this.file = output.file;
-      this.fileName = this.file.name;
     } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
     } else if (output.type === 'cancelled' || output.type === 'removed') {
     } else if (output.type === 'rejected' && typeof output.file !== 'undefined') {
     } else if (output.type === 'done') {
       this.messageService.setMessage({message: output.file.response.message, messageType: output.file.response.status});
       this.file =  output.file;
-      this.fileId = output.file.response.file_id;
+      this.order.file = output.file.response.file;
     }
   }
 
-  deleteFile(): void {
-    this.fileUploaderService.deleteFile(this.fileId).subscribe({
-      next: null,
+  deleteFile(fileID): void {
+    this.fileUploaderService.deleteFile(this.order.file.id, this.order.id).subscribe({
+      next: (response) => {
+        if (response === true) {
+          this.order.file = null;
+        }
+      },
       error: null,
       complete: () => {
-        this.fileId = null;
-        this.file = null;
-        this.fileName = null;
       }
     });
   }
 
   onAllColorChange(f: NgForm) {
-    if (this.order.all === true) {
+    if (this.order.all) {
       this.order.c = true;
       this.order.m = true;
       this.order.y = true;
@@ -100,14 +113,15 @@ export class OrderCreateComponent implements OnInit {
   }
 
   onSubmit(f: NgForm): void {
-    if (!this.fileId || !this.order.plateId ||
+    if (!this.order.file || !this.order.plateId || !this.order.editable ||
       (!this.order.c && !this.order.m && !this.order.y && !this.order.k)) {
-      console.log('no submit');
+        console.log('no submit');
       return ;
     }
-    this.orderService.store(this.order, this.fileId).subscribe({
+    this.orderService.update(this.order, this.order.file.id).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard/order/']);
+        console.log('edit success');
+        //this.router.navigate(['/dashboard/order/']);
       },
       error: null,
       complete: () => {

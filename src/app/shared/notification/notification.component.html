@@ -1,1 +1,12 @@
-<p>notification works!</p>
+<article class="message is-small" 
+[@openClose]=" open ? 'open' : 'closed'">
+    <div class="message-header">
+        <p>Уведомления</p>
+      <button class="delete" (click)="destroyMessages()"></button>
+    </div>
+    <div class="message-body">
+        <div [className]="'notification is-light is-' + message.messageType" *ngFor="let message of messages">
+            {{message.message}}
+        </div>
+    </div>
+</article>
