@@ -28,8 +28,6 @@ export class OrderCreateComponent implements OnInit {
   uploadInput: EventEmitter<UploadInput>;
   options: UploaderOptions;
   token: string;
-
-  JSON = JSON;
   constructor(private plateService: PlateService,
               private messageService: MessageService,
               private fileUploaderService: FileUploaderService,

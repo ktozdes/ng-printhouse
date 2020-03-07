@@ -1,1 +1,51 @@
-<p>storage works!</p>
+<div class="level">
+    <div class="level-left">
+        <div class="title">Список Пластин</div>
+    </div>
+</div>
+<div class="table-container">
+    <table class="table is-bplateed is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Название</th>
+            <th>Фирма</th>
+            <th>Количество</th>
+            <th>Ширина</th>
+            <th>Высота</th>
+            <th>Толщина</th>
+            <th>Измерение</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let plate of plates" [attr.plate-id]="plate.id">
+            <td>{{plate.name}}</td>
+            <td>{{plate.producer}}</td>
+            <td>{{plate.quantity}}</td>
+            <td>{{plate.width}}</td>
+            <td>{{plate.height}}</td>
+            <td>{{plate.thickness}}</td>
+            <td>{{plate.meauserment_unit}}</td>
+            <td>
+                <div class="field has-addons">
+                    <p class="control">
+                      <button class="button" (click)="edit(plate.id)">
+                        <span class="icon is-small">
+                          <i class="fa fa-pencil"></i>
+                        </span>
+                        <span>Изменить</span>
+                      </button>
+                    </p>
+                    <p class="control">
+                      <button class="button is-danger" (click)="destroy(plate.id)">
+                        <span class="icon is-small">
+                          <i class="fa fa-trash"></i>
+                        </span>
+                      </button>
+                    </p>
+                  </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>

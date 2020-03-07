@@ -1,1 +1,79 @@
-<p>payment works!</p>
+<div class="level">
+    <div class="level-left">
+        <div class="title">Добавить Оплату</div>
+    </div>
+</div>
+
+<div class="columns is-multiline">
+    <div class="column">
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" class="box" #f="ngForm">
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Выберите Клиента</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="select">
+                            <select name="userID" (change)="onChange($event.target.value)">
+                                <option disabled>Выберите Клиента</option>
+                                <option *ngFor="let user of userList" [value]='user.id' >{{user.name}}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="!selectedUser && f.submitted" class="help is-danger">
+                            Объязательное поле
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Клиент</label>
+                </div>
+                <div class="field-body">
+                    <div class="field" *ngIf="selectedUser">
+                        <p class="is-inline-block">Баланс: <span [ngClass]="(selectedUser.balance > -1)?'positive-balance':'negative-balance'">{{selectedUser.balance}}</span></p>
+                        &nbsp;<p class="is-inline-block">Статус: {{selectedUser.rank}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Сумма</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded  has-icons-left">
+                            <input class="input" id="amount" type="text" #amount="ngModel" name="amount" [(ngModel)]="payment.amount">
+                            <span class="icon is-small is-left">
+                                <i class="fa fa-money"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="!payment.amount && (amount.dirty || amount.touched || f.submitted)" class="help is-danger">
+                            Объязательное поле
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Комментарий</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <textarea name="comment" class="textarea" [(ngModel)]="payment.comment" placeholder="Допольнительные сведения"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="field ">
+                <button class="button is-info">
+                    Добавить Оплату
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

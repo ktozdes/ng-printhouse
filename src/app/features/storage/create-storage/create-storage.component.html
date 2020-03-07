@@ -1,0 +1,138 @@
+<div class="level">
+    <div class="level-left">
+        <div class="title">Добавить Пластину</div>
+    </div>
+</div>
+
+<div class="columns is-multiline">
+    <div class="column">
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit(f)" class="box" #f="ngForm">
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Название</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input class="input" type="text" name="name" [(ngModel)]="plate.name" #name="ngModel" [ngClass]="{ 'is-danger': f.submitted && name.invalid }" placeholder="А4" required>
+                          </p>
+                        <div *ngIf="name.invalid && (name.dirty || name.touched || f.submitted)" class="help is-danger">
+                            Объязательное поле
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Спецификация</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <textarea name="specification" class="textarea" [(ngModel)]="plate.specification" placeholder="Допольнительные сведения"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Фирма(Страна)</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input name="producer" class="input" type="text" [(ngModel)]="plate.producer"  placeholder="Китай">
+                          </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Ширина</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input name="width" class="input" type="text" [(ngModel)]="plate.width"  placeholder="420">
+                          </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Высота</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input name="height" class="input" type="text" [(ngModel)]="plate.height"  placeholder="230">
+                          </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Толщина</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input name="thickness" class="input" type="text" [(ngModel)]="plate.thickness"  placeholder="0.03">
+                          </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Измерение</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input name="measurement_unit" class="input" type="text" [(ngModel)]="plate.measurement_unit"  placeholder="mm">
+                          </p>
+                    </div>
+                </div>
+            </div>
+            <div class="notification">
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                      <label class="label">Количество</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control is-expanded">
+                                <input name="quantity" class="input" type="number" [(ngModel)]="storage.quantity"  placeholder="12">
+                              </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label">
+                      <label class="label">Цена</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control is-expanded">
+                                <input name="quantity" class="input" type="text" [(ngModel)]="storage.price"  placeholder="500.00">
+                              </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+                
+            
+            <div class="field ">
+                <button class="button is-info">
+                    Создать Пластину
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-export interface Plate {
+export class Plate {
     id: string;
     name: string;
     specification?: string;
@@ -7,7 +7,7 @@ export interface Plate {
     width?: string;
     height?: string;
     thickness?: string;
-    measurementUnit?: string;
+    measurement_unit?: string;
     updatedAt?: string;
     createdAt?: string;
 }

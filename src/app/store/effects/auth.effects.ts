@@ -29,6 +29,8 @@ export class AuthEffects {
     ofType( AuthActions.logout ),
     map(() => {
       this.router.navigate(['/auth']);
+      localStorage.removeItem('token');
+      localStorage.removeItem('login_date');
       return { type: '[Auth] Logout Success' };
     })
   ));

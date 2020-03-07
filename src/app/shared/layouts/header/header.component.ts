@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { userState } from 'src/app/store/app-state';
 import { logout } from 'src/app/store/actions/auth.actions';
 import {MessageService} from 'src/app/services/message.service'
+import { PlateService } from 'src/app/services/plate.service';
 
 @Component({
   selector: 'app-header',
@@ -20,7 +21,8 @@ export class HeaderComponent implements OnInit {
   thisUser: User;
   constructor(
     private store: Store <any>,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private plateService: PlateService
     ) {
       const getState = this.store.select(userState);
       getState.subscribe((state) => {
@@ -40,6 +42,12 @@ export class HeaderComponent implements OnInit {
       messageType: 'success'
     };
     this.messageService.setMessage( newMessage );
+    // this.plateService.destroy(8).subscribe({
+    //   next: (res: any) => {
+    //     console.log(res);
+    //     //this.list();
+    //   }
+    // });
   }
 
   logOut() {
