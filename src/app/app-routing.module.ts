@@ -25,33 +25,33 @@ const routes: Routes = [
       },
       {
         path: 'order',
-        canActivate: [PermissionGuard],
+        canLoad: [PermissionGuard],
         loadChildren: () => import('./features/order/order.module').then(m => m.OrderModule),
         data: {permission: 'menu order'}
       },
       {
         path: 'report',
-        canActivate: [PermissionGuard],
+        canLoad: [PermissionGuard],
         loadChildren: () => import('./features/report/report.module').then(m => m.ReportModule),
         data: {permission: 'menu report'}
       },
       {
         path: 'payment',
-        canActivate: [PermissionGuard],
+        canLoad: [PermissionGuard],
         loadChildren: () => import('./features/payment/payment.module').then(m => m.PaymentModule),
         data: {permission: 'menu payment'}
       },
       {
         path: 'storage',
-        canActivate: [PermissionGuard],
+        canLoad: [PermissionGuard],
         loadChildren: () => import('./features/storage/storage.module').then(m => m.StorageModule),
         data: {permission: 'menu storage'}
       },
       {
-        path: 'profile',
-        canActivate: [PermissionGuard],
-        loadChildren: () => import('./features/profile/profile.module').then(m => m.ProfileModule),
-        data: {permission: 'menu profile'}
+        path: 'user',
+        canLoad: [PermissionGuard],
+        loadChildren: () => import('./features/user/user.module').then(m => m.UserModule),
+        data: {permission: 'profile edit personal'}
       }
     ]
   },

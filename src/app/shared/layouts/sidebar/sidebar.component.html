@@ -14,13 +14,13 @@
       
       <li *ngIf="permissionGuard.showMenuItem('menu report')"><a routerLink="/dashboard/report" [routerLinkActiveOptions]="{exact:
         true}" routerLinkActive="is-active">Отчет</a></li>
-      <li *ngIf="permissionGuard.showMenuItem('menu profile')"><a routerLink="/dashboard/profile" [routerLinkActiveOptions]="{exact:
-        true}" routerLinkActive="is-active">Профиль</a></li>
     </ul>
     <p class="menu-label" *ngIf="permissionGuard.showMenuItem('menu payment') || permissionGuard.showMenuItem('menu storage')">
       Администратор
     </p>
     <ul class="menu-list">
+      <li *ngIf="permissionGuard.showMenuItem('menu user')"><a routerLink="/dashboard/user" [routerLinkActiveOptions]="{exact:
+        true}" routerLinkActive="is-active">Пользователи</a></li>
       <li *ngIf="permissionGuard.showMenuItem('menu payment')"><a routerLink="/dashboard/payment" routerLinkActive="is-active">Оплата</a></li>
       <li *ngIf="permissionGuard.showMenuItem('menu storage')"><a routerLink="/dashboard/storage" [routerLinkActiveOptions]="{exact:
         true}" routerLinkActive="is-active">Склад</a></li>

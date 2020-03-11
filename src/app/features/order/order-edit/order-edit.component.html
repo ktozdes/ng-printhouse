@@ -64,9 +64,7 @@
                                 <option *ngFor="let plate of plates" [value]='plate.id' [selected]='plate.id == order.plate_id'>{{plate.name}}</option>
                             </select>
                         </div>
-                        
                     </div>
-                    
                 </div>
             </div>
 
@@ -101,6 +99,11 @@
                     <div class="field">
                         <input id="k" type="checkbox" name="k" [(ngModel)]="order.k" [checked]="order.k" class="switch is-black is-rounded">
                         <label for="k">K</label>
+                    </div>
+
+                    <div class="field">
+                        <input id="pantone" type="checkbox" name="pantone" [(ngModel)]="order.pantone" [checked]="order.pantone" class="switch is-black is-rounded">
+                        <label for="pantone">Понтон</label>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@ export class Plate {
     id: string;
     name: string;
     specification?: string;
+    price?: string;
     producer?: string;
     quantity?: string;
     width?: string;

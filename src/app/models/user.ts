@@ -1,5 +1,6 @@
+import { PlateUser } from './plate-user';
+
 export class User {
-  [x: string]: string;
     id: string;
     name: string;
     fullname?: string;
@@ -17,4 +18,7 @@ export class User {
     token: string;
     password: string;
     repeatPassword: string;
+    roles?: string[];
+    permissions?: string[];
+    pricing: PlateUser[];
 }

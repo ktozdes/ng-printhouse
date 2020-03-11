@@ -1,12 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from 'src/app/models/user';
-import { Message } from 'src/app/models/message';
 
 import { Store } from '@ngrx/store';
 import { userState } from 'src/app/store/app-state';
 import { logout } from 'src/app/store/actions/auth.actions';
-import {MessageService} from 'src/app/services/message.service'
-import { PlateService } from 'src/app/services/plate.service';
+import {MessageService} from 'src/app/services/message.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
@@ -22,7 +21,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private store: Store <any>,
     private messageService: MessageService,
-    private plateService: PlateService
+    private router: Router
     ) {
       const getState = this.store.select(userState);
       getState.subscribe((state) => {
@@ -48,6 +47,10 @@ export class HeaderComponent implements OnInit {
     //     //this.list();
     //   }
     // });
+  }
+
+  gotoProfile() {
+    this.router.navigate(['/dashboard/user/edit/', { id: this.thisUser.id }]);
   }
 
   logOut() {

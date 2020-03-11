@@ -11,6 +11,9 @@ import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { NotificationComponent } from './notification/notification.component';
+import { RatingComponent } from './rating/rating.component';
+
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,17 +25,20 @@ import { NotificationComponent } from './notification/notification.component';
     HeaderComponent,
     FooterComponent,
     SidebarComponent,
-    NotificationComponent
+    NotificationComponent,
+    RatingComponent
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   exports: [
     RouterModule,
     CarouselComponent,
     ModalInfoComponent,
-    MainLayoutComponent
+    MainLayoutComponent,
+    RatingComponent
   ]
 })
 export class SharedModule {

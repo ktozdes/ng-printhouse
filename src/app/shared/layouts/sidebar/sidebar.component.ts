@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',

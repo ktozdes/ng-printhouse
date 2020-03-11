@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class OrderComponent implements OnInit {
   orders: Order[];
+  page = 0;
   constructor(private orderService: OrderService,
               private router: Router) {
       this.getOrders();
@@ -19,14 +20,20 @@ export class OrderComponent implements OnInit {
   }
 
   getOrders(): void {
-    this.orderService.list().subscribe({
+    this.orderService.list(this.page).subscribe({
       next: (res: any) => {
-        this.orders = res.data;
+        this.orders = (this.page < 1) ? res.data : this.orders.concat(res.data);
       },
       error: null,
       complete: () => {
       }
     });
+  }
+  
+  onScroll() {
+    console.log('scroll');
+    this.page++;
+    this.getOrders();
   }
 
   edit(id: any) {

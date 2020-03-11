@@ -32,7 +32,7 @@ export class OrderService {
   }
 
   list(pageNumber = 0): Observable<any> {
-    const params = new HttpParams().set("page", pageNumber.toString());
+    const params = new HttpParams().set('page', pageNumber.toString());
     return this.http.get(`${environment.backendUrl}/order/list`, {params} )
     .pipe(
       map((response: any) => {

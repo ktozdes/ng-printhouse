@@ -20,7 +20,7 @@
               </a>
         
               <a class="navbar-item" href="javascript:void(0)" (click)="addMessage()">
-                Documentation
+                Уведмоления
               </a>
             </div>
         
@@ -29,19 +29,17 @@
                   <article class="media">
                     <div class="media-content">
                       <div class="content">
-                          <div>
-                              <strong >{{thisUser.name}}</strong>
-                          </div>
-                          <div class="has-text-white" [ngClass]="(thisUser.balance > -1)?'has-background-success':'has-background-danger'">
-                            <span class="money">{{thisUser.balance}}</span><span class="currency"> som</span>
-                          </div>
+                          <strong>{{thisUser.name}}</strong>
+                      </div>
+                      <div class="has-text-white" [ngClass]="(thisUser.balance > -1)?'has-background-success':'has-background-danger'">
+                        <span class="money">{{thisUser.balance}}</span><span class="currency"> som</span>
                       </div>
                     </div>
-                    <span class="icon is-large">
-                      <span class="fa-stack fa-lg">
-                        <i class="fa fa-user fa-stack-1x"></i>
+                      <span class="icon is-large" (click)="gotoProfile()">
+                        <span class="fa-stack fa-lg">
+                          <i class="fa fa-user fa-stack-1x"></i>
+                        </span>
                       </span>
-                    </span>
                   </article>
                 </div>
               <div class="navbar-item">

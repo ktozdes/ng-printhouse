@@ -1,0 +1,46 @@
+<div class="level">
+    <div class="level-left">
+        <div class="title">Пользователи</div>
+    </div>
+</div>
+
+<div class="level">
+    <div class="level-left">
+        <div class="title">Список Пластин</div>
+    </div>
+</div>
+<div class="table-container">
+    <table class="table is-bplateed is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+          <tr>
+            <th>Логин</th>
+            <th>ФИО</th>
+            <th>Компания</th>
+            <th>Телефон</th>
+            <th>Баланс</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let user of users" [attr.user-id]="user.id">
+            <td>{{user.name}}</td>
+            <td>{{user.fullname}}</td>
+            <td>{{user.company}}</td>
+            <td>{{user.phone1}}</td>
+            <td>{{user.balance}}</td>
+            <td>
+                <div class="field has-addons">
+                    <p class="control">
+                      <button class="button" (click)="edit(user.id)">
+                        <span class="icon is-small">
+                          <i class="fa fa-pencil"></i>
+                        </span>
+                        <span>Изменить</span>
+                      </button>
+                    </p>
+                </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>

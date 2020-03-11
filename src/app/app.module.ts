@@ -5,13 +5,14 @@ import { NgModule } from '@angular/core';
 import { httpInterceptorProviders } from './interceptors';
 import { SharedModule } from './shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
 import { AppStoreModule } from './store/app-store.module';
 import { HttpClientModule } from '@angular/common/http';
-import { PageNotFoundComponent } from './features/page-not-found/page-not-found.component';
-
 import { NgxUploaderModule } from 'ngx-uploader';
+
+
+import { PageNotFoundComponent } from './features/page-not-found/page-not-found.component';
 import { SimpleDemoComponent } from './simple-demo-component/simple-demo-component.component';
+import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [

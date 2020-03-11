@@ -20,7 +20,7 @@ export class PaymentComponent implements OnInit {
     this.getClientList();
   }
   getClientList() {
-    this.userService.paymentlist().subscribe({
+    this.userService.list().subscribe({
       next: (res: any) => {
         this.userList = res.users;
         console.log(typeof this.userList, this.userList);
