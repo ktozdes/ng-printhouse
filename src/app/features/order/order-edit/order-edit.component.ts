@@ -115,13 +115,11 @@ export class OrderEditComponent implements OnInit {
   onSubmit(f: NgForm): void {
     if (!this.order.file || !this.order.plateId || !this.order.editable ||
       (!this.order.c && !this.order.m && !this.order.y && !this.order.k)) {
-        console.log('no submit');
       return ;
     }
     this.orderService.update(this.order, this.order.file.id).subscribe({
       next: () => {
-        console.log('edit success');
-        //this.router.navigate(['/dashboard/order/']);
+        this.router.navigate(['/dashboard/order/']);
       },
       error: null,
       complete: () => {

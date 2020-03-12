@@ -29,9 +29,8 @@ export class OrderComponent implements OnInit {
       }
     });
   }
-  
+
   onScroll() {
-    console.log('scroll');
     this.page++;
     this.getOrders();
   }

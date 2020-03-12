@@ -29,7 +29,6 @@ export class EditStorageComponent implements OnInit {
     this.plateService.edit(this.plateID).subscribe({
       next: (res: any) => {
         this.plate = res.plate;
-        console.log('plate', this.plate);
       },
       error: null,
       complete: () => {
@@ -44,7 +43,7 @@ export class EditStorageComponent implements OnInit {
     }
     this.plateService.update(this.plate, this.storage).subscribe({
       next: (res: any) => {
-        this.router.navigate(['/dashboard/order/']);
+        this.router.navigate(['/dashboard/storage/']);
       },
       error: null,
       complete: () => {

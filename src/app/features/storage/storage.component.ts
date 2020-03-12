@@ -21,7 +21,6 @@ export class StorageComponent implements OnInit {
   list(): void {
     this.plateService.list().subscribe({
       next: (res: any) => {
-        console.log(res);
         this.plates = res.plates;
       },
       error: null,

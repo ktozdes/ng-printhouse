@@ -33,11 +33,10 @@ export class UserService {
     );
   }
 
-  update(user: User, pricing: PlateUser): Observable<any> {
+  update(user: User, pricing: PlateUser[]): Observable<any> {
     return this.http.post(`${environment.backendUrl}/user/update`, {change_user: user, pricing})
     .pipe(
       map((response: any) => {
-        console.log(response);
         this.messageService.setMessage({message: response.message, messageType: response.status});
         return response;
       }),

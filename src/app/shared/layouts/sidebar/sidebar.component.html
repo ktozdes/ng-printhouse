@@ -11,9 +11,7 @@
           <li *ngIf="permissionGuard.showMenuItem('menu order')"><a routerLink="/dashboard/order/create" [routerLinkActiveOptions]="{exact:
             true}" routerLinkActive="is-active">Новые Заказы</a></li>
         </ul></li>
-      
-      <li *ngIf="permissionGuard.showMenuItem('menu report')"><a routerLink="/dashboard/report" [routerLinkActiveOptions]="{exact:
-        true}" routerLinkActive="is-active">Отчет</a></li>
+      <li *ngIf="permissionGuard.showMenuItem('menu report')"><a routerLink="/dashboard/report/order" routerLinkActive="is-active">Отчет</a></li>
     </ul>
     <p class="menu-label" *ngIf="permissionGuard.showMenuItem('menu payment') || permissionGuard.showMenuItem('menu storage')">
       Администратор

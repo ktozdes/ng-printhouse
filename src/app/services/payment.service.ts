@@ -18,7 +18,6 @@ export class PaymentService {
     return this.http.post(`${environment.backendUrl}/payment/store`, {payment})
     .pipe(
       map((response: any) => {
-        console.log('payment store', response);
         this.messageService.setMessage({message: response.message, messageType: response.status});
         return true;
       }),

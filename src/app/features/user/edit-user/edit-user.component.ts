@@ -54,12 +54,11 @@ export class EditUserComponent implements OnInit {
             };
           });
         }
-        console.log(this.user, this.plates, this.pricing);
+        //console.log(this.user, this.plates, this.pricing);
       }
     });
   }
   onNotify(trustID: number): void {
-    console.log('trustID', trustID);
     this.user.trust = trustID.toString();
   }
 
@@ -68,7 +67,7 @@ export class EditUserComponent implements OnInit {
       console.log('no submit');
       return;
     }
-    console.log(this.user, this.pricing);
+    
     delete this.user.roles;
     delete this.user.permissions;
 

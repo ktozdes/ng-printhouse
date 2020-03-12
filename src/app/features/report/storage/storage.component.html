@@ -1,0 +1,96 @@
+<div class="tabs is-centered  is-medium is-boxed">
+    <ul>
+        <li>
+            <a routerLink="/dashboard/report">
+                <span class="icon is-small"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+                <span>Главная</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/dashboard/report/order">
+                <span class="icon is-small"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+                <span>Заказы</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/dashboard/report/balance">
+                <span class="icon is-small"><i class="fa fa-money" aria-hidden="true"></i></span>
+                <span>Баланс</span>
+            </a>
+        </li>
+        <li class="is-active" *ngIf="permissionGuard.showMenuItem('report storage')">
+            <a routerLink="/dashboard/report/storage">
+                <span class="icon is-small"><i class="fa fa-clone" aria-hidden="true"></i></span>
+                <span>Склад</span>
+            </a>
+        </li>
+    </ul>
+  </div>
+
+<div class="columns is-multiline">
+    <div class="column">
+        <h5 class="title is-5">
+            Фильтры
+        </h5>
+        <div class="tile has-text-centered">
+            <mat-form-field>
+                <mat-label>Сортировать</mat-label>
+                <select matNativeControl [(ngModel)]="sortBy">
+                <option value="date_desc">Сначала Новые</option>
+                <option value="date_asc">Сначала Старые</option>
+                <option value="price_desc">По Цене Убывание</option>
+                <option value="price_asc">По Цене Возрастание</option>
+                <option value="quantity_desc">По Количеству Убывание</option>
+                <option value="quantity_asc">По Количеству Возрастание</option>
+                <option value="plate_name_desc">По Пластине Убывание</option>
+                <option value="plate_name_asc">По Пластине Возрастание</option>
+                </select>
+            </mat-form-field>
+            <div class="field is-grouped filter-group">
+                <mat-form-field>
+                    <mat-label>Начало: </mat-label>
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Конец: </mat-label>
+                    <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2 startView="year" [startAt]="startDate"></mat-datepicker>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Пластина</mat-label>
+                    <select matNativeControl [(ngModel)]="plateID">
+                    <option value="all">Все</option>
+                    <option *ngFor="let plate of plates" [value]='plate.id' >{{plate.name}}</option>
+                    </select>
+                </mat-form-field>
+
+                <button class="button is-info" (click)="onSubmit()">Искать</button>
+            </div>
+        </div>
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Пластина</th>
+                <th>Добавлял</th>
+              </tr>
+            </thead>
+            <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+              <tr *ngFor="let storage of storages" [attr.storage-id]="storage.id">
+                <td>{{storage.created_at | date:'dd/MM/yyyy'}}</td>
+                <td>{{storage.price | currency:KGS:''}} сом</td>
+                <td>{{storage.quantity}}</td>
+                <td>{{storage.plate_name}}</td>
+                <td>{{storage.manager_name}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

@@ -22,7 +22,6 @@ export class PlateService {
     return this.http.post(`${environment.backendUrl}/plate/store`, {plate, storage})
     .pipe(
       map((response: any) => {
-        console.log('store', response);
         this.messageService.setMessage({message: response.message, messageType: response.status});
         return true;
       }),

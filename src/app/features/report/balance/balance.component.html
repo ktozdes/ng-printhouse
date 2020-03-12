@@ -1,0 +1,107 @@
+<div class="tabs is-centered  is-medium is-boxed">
+    <ul>
+        <li>
+            <a routerLink="/dashboard/report">
+                <span class="icon is-small"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+                <span>Главная</span>
+            </a>
+        </li>
+        <li>
+            <a routerLink="/dashboard/report/order">
+                <span class="icon is-small"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+                <span>Заказы</span>
+            </a>
+        </li>
+        <li class="is-active">
+            <a routerLink="/dashboard/report/balance">
+                <span class="icon is-small"><i class="fa fa-money" aria-hidden="true"></i></span>
+                <span>Баланс</span>
+            </a>
+        </li>
+        <li *ngIf="permissionGuard.showMenuItem('report storage')">
+            <a routerLink="/dashboard/report/storage">
+                <span class="icon is-small"><i class="fa fa-clone" aria-hidden="true"></i></span>
+                <span>Склад</span>
+            </a>
+        </li>
+    </ul>
+  </div>
+
+<div class="columns is-multiline">
+    <div class="column">
+        <h5 class="title is-5">
+            Фильтры
+        </h5>
+        <div class="tile has-text-centered">
+            <mat-form-field>
+                <mat-label>Сортировать</mat-label>
+                <select matNativeControl [(ngModel)]="sortBy">
+                <option value="date_desc">Сначала Новые</option>
+                <option value="date_asc">Сначала Старые</option>
+                <option value="payment_desc">По оплате Убывание</option>
+                <option value="payment_asc">По оплате Возрастание</option>
+                </select>
+            </mat-form-field>
+            <div class="field is-grouped filter-group">
+                <mat-form-field>
+                    <mat-label>Начало: </mat-label>
+                    <input matInput [matDatepicker]="picker" [(ngModel)]="startDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Конец: </mat-label>
+                    <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2 startView="year" [startAt]="startDate"></mat-datepicker>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Показывать</mat-label>
+                    <select matNativeControl [(ngModel)]="balanceType">
+                    <option value="all">Все</option>
+                    <option value="balance_positive">Поступление в баланс</option>
+                    <option value="balance_negative">Вычитание из баланса</option>
+                    </select>
+                </mat-form-field>
+
+                <mat-form-field  *ngIf="permissionGuard.showMenuItem('report user all')">
+                    <mat-label>Клиенты</mat-label>
+                    <select matNativeControl [(ngModel)]="userID">
+                    <option value="all">Все</option>
+                    <option *ngFor="let user of userList" [value]='user.id' >{{user.name}}</option>
+                    </select>
+                </mat-form-field>
+
+                <button class="button is-info" (click)="onSubmit()">Искать</button>
+            </div>
+        </div>
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Операция</th>
+                <th>Оплата</th>
+                <th>Баланс До</th>
+                <th>Баланс После</th>
+                <th>Комментарий</th>
+                <th *ngIf="permissionGuard.showMenuItem('report user all')">Оплатил</th>
+                <th *ngIf="permissionGuard.showMenuItem('report user all')">Оплату Принимал</th>
+              </tr>
+            </thead>
+            <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+              <tr *ngFor="let payment of payments" [attr.payment-id]="payment.id">
+                <td>{{payment.created_at | date:'dd/MM/yyyy'}}</td>
+                <td>{{payment.name}}</td>
+                <td [ngClass]="(payment.amount > -1)?'has-text-success':'has-text-danger'" >{{payment.amount | currency:KGS:''}} сом</td>
+                <td>{{payment.balance_before | currency:KGS:''}} сом</td>
+                <td>{{payment.balance_after | currency:KGS:''}} сом</td>
+                <td>{{payment.comment}}</td>
+                <td *ngIf="permissionGuard.showMenuItem('report user all')">{{payment.payer_name}}</td>
+                <td *ngIf="permissionGuard.showMenuItem('report user all')">{{payment.manager_name}}</td>
+              </tr>
+            </tbody>
+          </table>
+    </div>
+</div>

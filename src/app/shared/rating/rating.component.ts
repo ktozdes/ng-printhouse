@@ -19,7 +19,6 @@ export class RatingComponent implements OnInit {
 
   ngOnInit() {
     this.currentClass = this.ranks[this.rating].class;
-    console.log(this.rating, this.currentClass);
   }
 
   clicked() {
@@ -30,7 +29,6 @@ export class RatingComponent implements OnInit {
     }
     this.currentClass = this.ranks[this.rating].class;
     this.notify.emit(this.ranks[this.rating].id);
-    console.log('clicked', this.rating, this.currentClass);
   }
 
 }

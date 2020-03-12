@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
 
 @Component({
   selector: 'app-report',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportComponent implements OnInit {
 
-  constructor() { }
+  constructor(private permissionGuard: PermissionGuard) { }
 
   ngOnInit() {
   }
