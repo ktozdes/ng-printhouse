@@ -18,8 +18,7 @@ export class AuthEffects {
           return { type: '[Auth] Login Success', token: login.token };
         }),
         catchError((err) => {
-          console.log('err', err);
-          return of({ type: '[Auth] Login Error', errorMessage: 'Не правильный логин или пароль.' });
+          return of({ type: '[Auth] Login Error', errorMessage: err.error.message });
         })
       )
     )
@@ -44,7 +43,6 @@ export class AuthEffects {
           return { type: '[Auth] Register Success', successMessage: 'Новый пользователь создан.' };
         }),
         catchError((err) => {
-          console.log('err', err);
           return of({ type: '[Auth] Register Error',
                       errorMessage: 'Произошла ошибка при регистрации. Проверьте поля.',
                       errors: err.error.errors });
@@ -61,7 +59,6 @@ export class AuthEffects {
           return { type: '[Auth] Login Success', token: login.token, successMessage: 'С Возвращением.' };
         }),
         catchError((err) => {
-          console.log('err', err);
           return of({ type: '[Auth] Login Error', errorMessage: 'Не правильный логин или пароль.' });
         })
       )
@@ -83,7 +80,6 @@ export class AuthEffects {
   loginError$ = createEffect(() => this.actions$.pipe(
     ofType( AuthActions.loginError ),
     map((payload) => {
-      console.log('[Auth] Login Error', payload);
       localStorage.removeItem('token');
       localStorage.removeItem('login_date');
       this.router.navigate(['/auth']);

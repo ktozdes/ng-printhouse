@@ -7,11 +7,16 @@ import { environment } from 'src/environments/environment';
 
 import { UploadOutput, UploadInput, UploadFile, UploaderOptions } from 'ngx-uploader';
 import { Store } from '@ngrx/store';
-import { authState } from 'src/app/store/app-state';
+import { authState, userState } from 'src/app/store/app-state';
 import { MessageService } from 'src/app/services/message.service';
 import { FileUploaderService } from 'src/app/services/file-uploader.service';
 import { OrderService } from 'src/app/services/order.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
+import { StatusService } from 'src/app/services/status.service';
+import { Status } from 'src/app/models/status';
+import { User } from 'src/app/models/user';
+import { getThisUser } from 'src/app/store/actions/user.actions';
 
 @Component({
   selector: 'app-order-edit',
@@ -21,18 +26,24 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class OrderEditComponent implements OnInit {
   order: Order = new Order();
   plates: Array<Plate>;
+  statuses: Status[];
   fileName: string;
   orderID: string;
+  statusID: string;
   formData: FormData;
   file: UploadFile;
   uploadInput: EventEmitter<UploadInput>;
   options: UploaderOptions;
   token: string;
 
+  user: User;
+
   constructor(private plateService: PlateService,
               private messageService: MessageService,
               private fileUploaderService: FileUploaderService,
               private orderService: OrderService,
+              private permissionGuard: PermissionGuard,
+              private statusService: StatusService,
               private router: Router,
               private route: ActivatedRoute,
               private store: Store <any>) {
@@ -44,7 +55,14 @@ export class OrderEditComponent implements OnInit {
     this.store.select(authState).subscribe((state) => {
         this.token = state.token;
     });
+    this.store.select(userState).subscribe((state) => {
+      this.user = state.user;
+    });
+    if (this.permissionGuard.showMenuItem('order user all')) {
+      this.getStatuses();
+    }
     this.getOrder();
+    this.calculatePrice();
   }
 
   ngOnInit() {
@@ -55,10 +73,20 @@ export class OrderEditComponent implements OnInit {
       next: (res: any) => {
         this.order = res.order;
         this.order.plateId = res.order.plate_id;
-        if ( this.order.c && this.order.m && this.order.y && this.order.k) {
-          this.order.all = true;
-        }
+        this.statusID = this.order.status_id;
         this.order.file = res.file;
+      },
+      error: null,
+      complete: () => {
+      }
+    });
+  }
+
+
+  getStatuses() {
+    this.statusService.list().subscribe({
+      next: (res: any) => {
+        this.statuses = res.statuses;
       },
       error: null,
       complete: () => {
@@ -87,10 +115,12 @@ export class OrderEditComponent implements OnInit {
       this.messageService.setMessage({message: output.file.response.message, messageType: output.file.response.status});
       this.file =  output.file;
       this.order.file = output.file.response.file;
+      this.order.quantity = output.file.response.file.pages;
+      this.calculatePrice();
     }
   }
 
-  deleteFile(fileID): void {
+  deleteFile(): void {
     this.fileUploaderService.deleteFile(this.order.file.id, this.order.id).subscribe({
       next: (response) => {
         if (response === true) {
@@ -103,23 +133,32 @@ export class OrderEditComponent implements OnInit {
     });
   }
 
-  onAllColorChange(f: NgForm) {
-    if (this.order.all) {
-      this.order.c = true;
-      this.order.m = true;
-      this.order.y = true;
-      this.order.k = true;
+  calculatePrice() {
+    if (this.order.file && this.order.plateId) {
+      //console.log(this.order, this.user, this.plates);
+      const selectedPlate = (this.user.pricing.length > 0)
+        ? this.user.pricing.find(price => (price.plate_id == this.order.plateId)).price
+        : this.plates.find(plate => (plate.id == this.order.plateId)).price;
+      const selectedColors = [this.order.c, this.order.m, this.order.y, this.order.k, this.order.pantone]
+        .reduce(( accumulator, currentValue ) => {
+          return (currentValue === true || currentValue === 1) ? accumulator + 1 : accumulator;
+        } , 0);
+      //console.log(this.order.quantity, selectedColors, selectedPlate);
+      this.order.price = (this.order.quantity * selectedColors * parseFloat(selectedPlate)).toString();
     }
   }
 
   onSubmit(f: NgForm): void {
     if (!this.order.file || !this.order.plateId || !this.order.editable ||
-      (!this.order.c && !this.order.m && !this.order.y && !this.order.k)) {
+      (!this.order.c && !this.order.m && !this.order.y && !this.order.k && !this.order.pantone)) {
       return ;
     }
-    this.orderService.update(this.order, this.order.file.id).subscribe({
+    this.orderService.update(this.order, this.order.file.id, this.statusID).subscribe({
       next: () => {
-        this.router.navigate(['/dashboard/order/']);
+        this.store.dispatch(getThisUser({}));
+        this.router.navigateByUrl('/dashboard', { skipLocationChange: true }).then(() => {
+          this.router.navigate(['dashboard/order']);
+        });
       },
       error: null,
       complete: () => {

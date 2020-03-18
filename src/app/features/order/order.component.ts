@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
 import { Router } from '@angular/router';
+import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
 
 @Component({
   selector: 'app-order',
@@ -10,8 +11,9 @@ import { Router } from '@angular/router';
 })
 export class OrderComponent implements OnInit {
   orders: Order[];
-  page = 0;
+  page = 1;
   constructor(private orderService: OrderService,
+              private permissionGuard: PermissionGuard,
               private router: Router) {
       this.getOrders();
     }
@@ -22,7 +24,14 @@ export class OrderComponent implements OnInit {
   getOrders(): void {
     this.orderService.list(this.page).subscribe({
       next: (res: any) => {
-        this.orders = (this.page < 1) ? res.data : this.orders.concat(res.data);
+        if (this.page <= 1) {
+          this.orders = res.data;
+        } else if (this.page > 1 && typeof this.orders === 'undefined') {
+          this.page = 1;
+          this.getOrders();
+        } else if (this.page > 1 && typeof this.orders !== 'undefined') {
+          this.orders = this.orders.concat(res.data);
+        }
       },
       error: null,
       complete: () => {
@@ -31,8 +40,10 @@ export class OrderComponent implements OnInit {
   }
 
   onScroll() {
-    this.page++;
-    this.getOrders();
+      if (typeof this.orders !== 'undefined') {
+        this.page++;
+        this.getOrders();
+      }
   }
 
   edit(id: any) {

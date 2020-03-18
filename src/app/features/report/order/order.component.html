@@ -93,21 +93,11 @@
               <tr *ngFor="let order of orders" [attr.order-id]="order.id">
                 <td>{{order.created_at | date:'dd/MM/yyyy'}}</td>
                 <td>
-                    <span class="icon is-small is-cyan" *ngIf="order.c">
-                    <i class="fa fa-circle"></i>
-                    </span> 
-                    <span class="icon is-small is-magento" *ngIf="order.m">
-                    <i class="fa fa-circle"></i>
-                    </span> 
-                    <span class="icon is-small is-yellow" *ngIf="order.y">
-                    <i class="fa fa-circle"></i>
-                    </span> 
-                    <span class="icon is-small is-black" *ngIf="order.k">
-                    <i class="fa fa-circle"></i>
-                    </span> 
-                    <span class="icon is-small is-pantone" *ngIf="order.pantone">
-                    <i class="fa fa-circle"></i>
-                    </span> 
+                    <span class="has-text-c" *ngIf="order.c">C</span>
+                    <span class="has-text-m" *ngIf="order.m">M</span>
+                    <span class="has-text-y" *ngIf="order.y">Y</span>
+                    <span class="has-text-k" *ngIf="order.k">K</span>
+                    <span class="has-text-p" *ngIf="order.p">P</span>
                 </td>
                 <td>{{order.price | currency:KGS:''}} сом</td>
                 <td>{{order.quantity}}</td>

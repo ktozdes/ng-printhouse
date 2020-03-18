@@ -12,6 +12,9 @@ import { MessageService } from 'src/app/services/message.service';
 import { FileUploaderService } from 'src/app/services/file-uploader.service';
 import { OrderService } from 'src/app/services/order.service';
 import { Router } from '@angular/router';
+import { PlateUser } from 'src/app/models/plate-user';
+import { User } from 'src/app/models/user';
+import { getThisUser } from 'src/app/store/actions/user.actions';
 
 @Component({
   selector: 'app-order-create',
@@ -25,18 +28,20 @@ export class OrderCreateComponent implements OnInit {
   fileId: number;
   formData: FormData;
   file: UploadFile;
+  fileMetaData: any;
   uploadInput: EventEmitter<UploadInput>;
   options: UploaderOptions;
   token: string;
+
+
+  pricing: PlateUser[];
+  user: User;
   constructor(private plateService: PlateService,
               private messageService: MessageService,
               private fileUploaderService: FileUploaderService,
               private orderService: OrderService,
               private router: Router,
               private store: Store <any>) {
-    this.plateService.list().subscribe((response) => {
-      this.plates = response.plates;
-    });
     this.options = { concurrency: 1, maxUploads: 3, maxFileSize: 1754429730 };
     this.uploadInput = new EventEmitter<UploadInput>();
     this.store.select(authState).subscribe((state) => {
@@ -44,12 +49,38 @@ export class OrderCreateComponent implements OnInit {
     });
     const getState = this.store.select(userState);
     getState.subscribe((state) => {
+      this.user = state.user;
       this.order.address = state.user.address;
+      this.order.c = true;
+      this.order.m = true;
+      this.order.y = true;
+      this.order.k = true;
+      this.order.pantone = false;
     });
-
+    this.getPlates();
   }
 
   ngOnInit() {
+  }
+
+  getPlates() {
+    this.plateService.list().subscribe({
+      next: (res: any) => {
+        this.plates = res.plates;
+        this.pricing = this.plates.map(plate => {
+          const userPrice = this.user.pricing.find(price => (price.plate_id == plate.id));
+          plate.price = (userPrice) ? userPrice.price : plate.price;
+          return {
+            id: plate.id,
+            name: plate.name,
+            price: plate.price
+          };
+        });
+      },
+      error: null,
+      complete: () => {
+      }
+    });
   }
 
   onUploadOutput(output: UploadOutput): void {
@@ -64,15 +95,15 @@ export class OrderCreateComponent implements OnInit {
       };
       this.uploadInput.emit(event);
     } else if (output.type === 'addedToQueue' && typeof output.file !== 'undefined') {
-      this.file = output.file;
-      this.fileName = this.file.name;
     } else if (output.type === 'uploading' && typeof output.file !== 'undefined') {
     } else if (output.type === 'cancelled' || output.type === 'removed') {
     } else if (output.type === 'rejected' && typeof output.file !== 'undefined') {
     } else if (output.type === 'done') {
       this.messageService.setMessage({message: output.file.response.message, messageType: output.file.response.status});
-      this.file =  output.file;
+      this.file =  output.file.response.file;
+      this.order.quantity = output.file.response.file.pages;
       this.fileId = output.file.response.file_id;
+      this.calculatePrice();
     }
   }
 
@@ -88,23 +119,28 @@ export class OrderCreateComponent implements OnInit {
     });
   }
 
-  onAllColorChange(f: NgForm) {
-    if (this.order.all === true) {
-      this.order.c = true;
-      this.order.m = true;
-      this.order.y = true;
-      this.order.k = true;
+  calculatePrice() {
+    if (this.file && this.order.plateId) {
+      const selectedPlate = (this.user.pricing.length > 0)
+        ? this.user.pricing.find(price => (price.plate_id == this.order.plateId)).price
+        : this.plates.find(plate => (plate.id == this.order.plateId)).price;
+      const selectedColors = [this.order.c, this.order.m, this.order.y, this.order.k, this.order.pantone]
+        .reduce(( accumulator, currentValue ) => {
+          return (currentValue === true ) ? accumulator + 1 : accumulator;
+        } , 0);
+      this.order.price = (this.order.quantity * selectedColors * parseFloat(selectedPlate)).toString();
     }
   }
 
   onSubmit(f: NgForm): void {
     if (!this.fileId || !this.order.plateId ||
-      (!this.order.c && !this.order.m && !this.order.y && !this.order.k)) {
+      (!this.order.c && !this.order.m && !this.order.y && !this.order.k && !this.order.pantone)) {
       console.log('no submit');
       return ;
     }
     this.orderService.store(this.order, this.fileId).subscribe({
       next: () => {
+        this.store.dispatch(getThisUser({}));
         this.router.navigate(['/dashboard/order/']);
       },
       error: null,

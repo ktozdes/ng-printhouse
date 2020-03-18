@@ -20,5 +20,5 @@ export class User {
     repeatPassword: string;
     roles?: string[];
     permissions?: string[];
-    pricing: PlateUser[];
+    pricing?: PlateUser[];
 }

@@ -45,7 +45,7 @@ export class EditUserComponent implements OnInit {
         if (this.permissionGuard.showMenuItem('profile edit additional')) {
           this.plates = res.plates;
           this.pricing = this.plates.map(plate => {
-            const userPrice = this.user.pricing.find(price => (price.plate_id == plate.id));
+            const userPrice = (this.user.pricing) ? this.user.pricing.find(price => (price.plate_id == plate.id)) : null;
             plate.price = (userPrice) ? userPrice.price : plate.price;
             return {
               id: plate.id,
@@ -54,7 +54,7 @@ export class EditUserComponent implements OnInit {
             };
           });
         }
-        //console.log(this.user, this.plates, this.pricing);
+        console.log(this.user, this.plates, this.pricing);
       }
     });
   }
@@ -67,7 +67,7 @@ export class EditUserComponent implements OnInit {
       console.log('no submit');
       return;
     }
-    
+
     delete this.user.roles;
     delete this.user.permissions;
 

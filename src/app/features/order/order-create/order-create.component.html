@@ -45,6 +45,29 @@
                           </button>
                     </div>
                 </div>
+                <div class="field is-horizontal" *ngIf="fileId">
+                    <div class="field-label">
+                        <label class="label">Данные PDF</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <label>Имя Файла: {{file.old_name}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal" *ngIf="fileId">
+                    <div class="field-label"><label class="label"></label>
+                    </div>
+                    <div class="field-body">
+                        <br/>
+                        <div class="field">
+                            <label>Страниц: {{file.pages}}</label>
+                        </div>
+                        <div class="field">
+                            <label>Цена: {{order.price | currency:KGS:''}} сом</label>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="field is-horizontal" *ngIf="plates">
@@ -54,7 +77,7 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="select">
-                            <select name="plateId" [(ngModel)]="order.plateId" #plateId="ngModel">
+                            <select name="plateId" [(ngModel)]="order.plateId" #plateId="ngModel" (change)="calculatePrice()">
                                 <option disabled>Выберите Размер</option>
                                 <option *ngFor="let plate of plates" [value]='plate.id' >{{plate.name}}</option>
                             </select>
@@ -63,53 +86,40 @@
                             Объязательное поле
                         </div>
                     </div>
-                    
                 </div>
             </div>
 
             <div class="field is-horizontal">
                 <div class="field-label">
                     <label class="label">Цветность</label>
-                    <div *ngIf="!order.c && !order.m && !order.y && !order.k" class="help is-danger">
+                    <div *ngIf="!order.c && !order.m && !order.y && !order.k && !order.pantone" class="help is-danger">
                         Выберите хотя бы один цвет
                     </div>
                 </div>
                 <div class="field-body">
                     <div class="field">
-                        <input id="all" type="checkbox" name="all" [(ngModel)]="order.all" #all="ngModel" (change)="onAllColorChange(f)" class="switch is-rounded">
-                        <label for="all">Все</label>
-                    </div>
-
-                    <div class="field">
-                        <input id="c" type="checkbox" name="с" [(ngModel)]="order.c" #c="ngModel" class="switch is-cyan is-rounded">
+                        <input id="c" type="checkbox" name="с" [(ngModel)]="order.c" #c="ngModel" class="switch is-cyan is-rounded" (change)="calculatePrice()">
                         <label for="c">С</label>
                     </div>
 
                     <div class="field">
-                        <input id="m" type="checkbox" name="m" [(ngModel)]="order.m" #m="ngModel" class="switch is-magento is-rounded">
+                        <input id="m" type="checkbox" name="m" [(ngModel)]="order.m" #m="ngModel" class="switch is-magento is-rounded" (change)="calculatePrice()">
                         <label for="m">M</label>
                     </div>
 
                     <div class="field">
-                        <input id="y" type="checkbox" name="y" [(ngModel)]="order.y" #y="ngModel" class="switch is-yellow is-rounded">
+                        <input id="y" type="checkbox" name="y" [(ngModel)]="order.y" #y="ngModel" class="switch is-yellow is-rounded" (change)="calculatePrice()">
                         <label for="y">Y</label>
                     </div>
 
                     <div class="field">
-                        <input id="k" type="checkbox" name="k" [(ngModel)]="order.k" #k="ngModel" class="switch is-black is-rounded">
+                        <input id="k" type="checkbox" name="k" [(ngModel)]="order.k" #k="ngModel" class="switch is-black is-rounded" (change)="calculatePrice()">
                         <label for="k">K</label>
                     </div>
-                </div>
-            </div>
-            
-            <div class="field is-horizontal">
-                <div class="field-label">
-                  <label class="label">Выполнение</label>
-                </div>
-                <div class="field-body">
+
                     <div class="field">
-                        <input id="urgent" type="checkbox" name="urgent" [(ngModel)]="order.urgent" class="switch is-rounded">
-                        <label for="urgent">Срочно</label>
+                        <input id="pantone" type="checkbox" name="pantone" [(ngModel)]="order.pantone" #pantone="ngModel" class="switch is-rounded" (change)="calculatePrice()">
+                        <label for="pantone">Пантон</label>
                     </div>
                 </div>
             </div>

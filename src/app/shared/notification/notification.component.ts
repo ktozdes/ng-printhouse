@@ -10,14 +10,15 @@ import { MessageService } from 'src/app/services/message.service';
   styleUrls: ['./notification.component.scss'],
   animations: [
     trigger('openClose', [
-      // ...
       state('open', style({
         opacity: 1,
-        top: 0
+        top: 0,
+        zIndex: 30,
       })),
       state('closed', style({
         opacity: 0,
-        top: -200
+        top: -200,
+        zIndex: 0,
       })),
       transition('open <=> closed', [
         animate('0.5s')

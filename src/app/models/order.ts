@@ -3,10 +3,11 @@ export class Order {
     id: number;
 
     all?: boolean;
-    c: boolean;
-    m: boolean;
-    y: boolean;
-    k: boolean;
+    c: any;
+    m: any;
+    y: any;
+    k: any;
+    pantone: any;
     urgent: boolean;
     deliver: boolean;
     editable?: boolean;
@@ -18,6 +19,8 @@ export class Order {
     address?: string;
     userId?: string;
     statusId?: string;
+    status_id?: string;
     plateId?: string;
     file?: File;
+    file_name?: string;
 }
