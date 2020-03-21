@@ -57,13 +57,27 @@ export class OrderService {
     );
   }
 
-  update(order: Order, fileId: number, statusID: any): Observable<any> {
-    return this.http.post(`${environment.backendUrl}/order/update`, {order, file_id: fileId, status_id: statusID})
+  update(order: Order, fileId: number): Observable<any> {
+    return this.http.post(`${environment.backendUrl}/order/update`, {order, file_id: fileId})
     .pipe(
       map((response: any) => {
         console.log(response);
         this.messageService.setMessage({message: response.message, messageType: response.status});
         return true;
+      }),
+      catchError((err, caught) => {
+        this.messageService.setMessage({message: err.error.message, messageType: err.error.status});
+        return empty();
+      })
+    );
+  }
+
+  changeStatus(orderID: any, statusID: any): Observable<any> {
+    return this.http.post(`${environment.backendUrl}/order/change_status`, {order_id: orderID, status_id: statusID})
+    .pipe(
+      map((response: any) => {
+        this.messageService.setMessage({message: response.message, messageType: response.status});
+        return response;
       }),
       catchError((err, caught) => {
         this.messageService.setMessage({message: err.error.message, messageType: err.error.status});

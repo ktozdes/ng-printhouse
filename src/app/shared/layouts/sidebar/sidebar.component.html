@@ -3,8 +3,8 @@
       Основной
     </p>
     <ul class="menu-list">
-      <li><a routerLink="/dashboard" routerLinkActive="is-active" [routerLinkActiveOptions]="{exact:
-        true}">Главная</a></li>
+      <li *ngIf="permissionGuard.showMenuItem('menu dashboard')"><a routerLink="/dashboard" [routerLinkActiveOptions]="{exact:
+        true}" routerLinkActive="is-active">Главная</a></li>
       <li *ngIf="permissionGuard.showMenuItem('menu order')"><a routerLink="/dashboard/order" [routerLinkActiveOptions]="{exact:
         true}" routerLinkActive="is-active">Заказы</a></li>
         <li><ul>

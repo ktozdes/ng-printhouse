@@ -1,6 +1,6 @@
 export class PlateUser {
-    id: string;
-    plate_id?: string;
-    user_id?: string;
+    id: number;
+    plate_id?: number;
+    user_id?: number;
     price?: string;
 }

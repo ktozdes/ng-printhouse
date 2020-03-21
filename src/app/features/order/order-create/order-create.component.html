@@ -9,10 +9,10 @@
         <form name="form" (ngSubmit)="f.form.valid && onSubmit(f)" class="box" #f="ngForm">
             <div class="notification">
                 <div class="field">
-                    <div class="file has-name is-primary is-fullwidth" *ngIf="!fileId">
+                    <div class="file has-name is-primary is-fullwidth" *ngIf="!order.file?.id">
                         <label class="file-label">
-                            <input class="file-input" type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"/>
-                            <input  type="hidden" name="fileId" [value]='fileId' required/>
+                            <input class="file-input" type="file" [ngModel]="fff" name="fff" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"/>
+                            <input  type="hidden" name="order.file?.id" [value]='order.file?.id' required/>
                             <span class="file-cta">
                                 <span class="file-icon">
                                 <i class="fa fa-upload"></i>
@@ -22,11 +22,10 @@
                                 </span>
                             </span>
                             <span class="file-name">
-                                {{ fileName }}
                             </span>
                         </label>
                     </div>
-                    <div class="help is-danger" *ngIf="!fileId && f.submitted" >
+                    <div class="help is-danger" *ngIf="!order.file?.id && f.submitted" >
                         Загрузите PDF файл
                     </div>
                 </div>
@@ -35,7 +34,7 @@
                     <progress class="progress is-primary" *ngIf="file" value="{{ file.progress?.data?.percentage }}" max="100"></progress>
                     </div>
                 </div>
-                <div class="field" *ngIf="fileId">
+                <div class="field" *ngIf="order.file?.id">
                     <div class="control">
                         <button type="button" class="button is-medium is-danger" (click)="deleteFile()">
                             <span class="icon">
@@ -45,7 +44,7 @@
                           </button>
                     </div>
                 </div>
-                <div class="field is-horizontal" *ngIf="fileId">
+                <div class="field is-horizontal" *ngIf="order.file?.id">
                     <div class="field-label">
                         <label class="label">Данные PDF</label>
                     </div>
@@ -55,7 +54,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="field is-horizontal" *ngIf="fileId">
+                <div class="field is-horizontal" *ngIf="order.file?.id">
                     <div class="field-label"><label class="label"></label>
                     </div>
                     <div class="field-body">
@@ -64,7 +63,7 @@
                             <label>Страниц: {{file.pages}}</label>
                         </div>
                         <div class="field">
-                            <label>Цена: {{order.price | currency:KGS:''}} сом</label>
+                            <label>Цена: {{order.payment.amount | currency:KGS:''}} сом</label>
                         </div>
                     </div>
                 </div>
@@ -77,12 +76,12 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="select">
-                            <select name="plateId" [(ngModel)]="order.plateId" #plateId="ngModel" (change)="calculatePrice()">
+                            <select name="plateId" [(ngModel)]="order.storage.plate_id" #plateId="ngModel" (change)="calculatePrice()">
                                 <option disabled>Выберите Размер</option>
                                 <option *ngFor="let plate of plates" [value]='plate.id' >{{plate.name}}</option>
                             </select>
                         </div>
-                        <div *ngIf="!order.plateId && (plateId.dirty || plateId.touched || f.submitted)" class="help is-danger">
+                        <div *ngIf="!order.storage.plate_id && (plateId.dirty || plateId.touched || f.submitted)" class="help is-danger">
                             Объязательное поле
                         </div>
                     </div>
@@ -162,9 +161,6 @@
                     </div>
                 </div>
             </div>
-            
-            
-                
             
             <div class="field ">
                 <button class="button is-info">

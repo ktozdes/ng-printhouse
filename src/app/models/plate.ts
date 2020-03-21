@@ -1,5 +1,5 @@
 export class Plate {
-    id: string;
+    id: number;
     name: string;
     specification?: string;
     price?: string;

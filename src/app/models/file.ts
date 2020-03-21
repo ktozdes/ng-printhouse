@@ -1,8 +1,9 @@
-export interface File {
-    id: number;
-    src: string;
-    name: string;
-    size: string;
-    width: string;
-    height: string;
+export class File {
+    id?: number;
+    url?: string;
+    name?: string;
+    pages?: number;
+    size?: string;
+    width?: string;
+    height?: string;
 }

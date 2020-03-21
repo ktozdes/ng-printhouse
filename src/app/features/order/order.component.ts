@@ -51,7 +51,7 @@ export class OrderComponent implements OnInit {
   }
 
   destroy(id: any) {
-    if (confirm('Are you sure to delete?')) {
+    if (confirm('Вы точно хотите удалить этот заказ?')) {
       this.orderService.destroy(id).subscribe({
         next: (res: any) => {
           this.getOrders();

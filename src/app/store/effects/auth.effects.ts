@@ -7,6 +7,8 @@ import {AuthorizationService} from '../../services/authorization.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { getThisUser } from '../actions/user.actions';
+import { userState } from '../app-state';
+//import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
 
 @Injectable()
 export class AuthEffects {
@@ -72,7 +74,16 @@ export class AuthEffects {
       localStorage.setItem('token', payload.token);
       localStorage.setItem('login_date', (new Date()).toUTCString() );
       this.store.dispatch(getThisUser({}));
-      this.router.navigate(['/dashboard']);
+      
+      this.store.select(userState).subscribe((state) => {
+        if (Array.isArray(state.permissions) ) {
+          if (state.permissions.indexOf('menu dashboard') >= 0) {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/dashboard/order/create']);
+          }
+        }
+      });
       return { type: '[Auth] EMPTY' };
     })
   ));

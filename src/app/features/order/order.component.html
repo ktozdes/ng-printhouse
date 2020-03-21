@@ -7,13 +7,12 @@
     <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
         <thead>
           <tr>
-            <th>ID</th>
             <th>Цветность</th>
             <th>Имя Файла</th>
             <th>Доставка</th>
             <th>Комментарий</th>
             <th>Цена</th>
-            <th>Страниц</th>
+            <th>Кол. Пластин</th>
             <th>Статус</th>
             <th *ngIf="permissionGuard.showMenuItem('order user all')">Клиент</th>
             <th>Действия</th>
@@ -21,7 +20,6 @@
         </thead>
         <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
           <tr *ngFor="let order of orders" [attr.order-id]="order.id">
-            <td>{{order.id}}</td>
             <td>
               <span class="has-text-c" *ngIf="order.c">C</span>
               <span class="has-text-m" *ngIf="order.m">M</span>
@@ -29,13 +27,13 @@
               <span class="has-text-k" *ngIf="order.k">K</span>
               <span class="has-text-p" *ngIf="order.pantone">P</span>
             </td>
-            <td>{{order.file_name}}</td>
+            <td>{{order.file.name}}</td>
             <td><span class="tag is-success" *ngIf='order.deliver'>Да</span></td>
             <td>{{order.comment}}</td>
-            <td>{{order.price | currency:KGS:''}} сом</td>
-            <td>{{order.quantity}}</td>
-            <td >{{order.status_name}}</td>
-            <td *ngIf="permissionGuard.showMenuItem('order user all')">{{order.user_name}}</td>
+            <td>{{order.payment.price | currency:KGS:''}} сом</td>
+            <td>{{order.storage.quantity}}</td>
+            <td >{{order.status.name}}</td>
+            <td *ngIf="permissionGuard.showMenuItem('order user all')">{{order.user.name}}</td>
             <td>
                 <div class="field has-addons" *ngIf='order.editable == 1'>
                     <p class="control">

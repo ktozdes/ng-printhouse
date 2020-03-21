@@ -20,16 +20,10 @@ export class TokenInterceptor implements HttpInterceptor {
     });
   }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return this.store.select(authState).pipe(
-      first(),
-      flatMap(state => {
-        const authReq = !!state.token ? req.clone({
-          headers: req.headers.set('Content-Type', 'application/json')
-          .set('token', this.token)
-        }) : req;
-        //console.log('intercept', state, authReq);
-        return next.handle(authReq);
-      }),
-    );
+    const authReq = !!this.token ? req.clone({
+      headers: req.headers.set('Content-Type', 'application/json')
+      .set('token', this.token)
+    }) : req;
+    return next.handle(authReq);
   }
 }

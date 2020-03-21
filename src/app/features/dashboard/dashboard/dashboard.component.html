@@ -1,1 +1,87 @@
-<p>dashboard works!</p>
+<div class="level">
+    <div class="level-left">
+        <div class="title">Список Файлов</div>
+    </div>
+</div>
+<hr class="hr" style="margin-bottom: 0;">
+<h3 id="example" class="title is-4 is-spaced bd-anchor-title">
+    <span class="bd-anchor-name">
+      Статусы
+    </span>
+</h3>
+<div class="content">
+    <p>При скачивании файла, статус заказа автоматически становится "В Процессе".</p>
+  </div>
+<div class="tile is-ancestor">
+    <div class="tile button is-danger " >
+        <p>Новый Заказ</p>
+    </div>
+    <div class="tile button is-warning">
+        <p>В Процессе</p>
+    </div>
+    <div class="tile button is-success">
+        <p>Завершен</p>
+    </div>
+  </div>
+
+<div class="table-container">
+    <table class="table is-bordered is-narrow is-fullwidth">
+        <thead>
+          <tr>
+            <th>Цветность</th>
+            <th>Файл</th>
+            <th>Доставка</th>
+            <th>Комментарий</th>
+            <th>Цена</th>
+            <th>Кол. Пластин</th>
+            <th>Клиент</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+            <tr *ngFor="let order of orders" [attr.order-id]="order.id" [class]="'status-id-' + order.status.id">
+              <td>
+                <span class="has-text-c" *ngIf="order.c">C</span>
+                <span class="has-text-m" *ngIf="order.m">M</span>
+                <span class="has-text-y" *ngIf="order.y">Y</span>
+                <span class="has-text-k" *ngIf="order.k">K</span>
+                <span class="has-text-p" *ngIf="order.pantone">P</span>
+              </td>
+              <td>{{order.file.name}}</td>
+              <td><span class="tag is-success" *ngIf='order.deliver'>Да</span></td>
+              <td>{{order.comment}}</td>
+              <td>{{order.payment.price | currency:KGS:''}} сом</td>
+              <td>{{order.storage.quantity}}</td>
+              <td>{{order.user.name}}</td>
+              <td>
+                <div class="field has-addons">
+                    <p class="control">
+                      <button class="button" *ngIf='order.file.url' (click)="download(order.id)">
+                        <span class="icon is-small">
+                          <i class="fa fa-download"></i>
+                        </span>
+                        <span>Скачать</span>
+                      </button>
+                    </p>
+                    <p class="control">
+                      <button class="button" *ngIf='order.status.id == 2' (click)="changeStatus(order.id, 3)">
+                        <span class="icon is-small">
+                          <i class="fa fa-check"></i>
+                        </span>
+                        <span>Завершен</span>
+                      </button>
+                    </p>
+                    <p class="control">
+                      <button class="button" (click)="destroy(order.id)">
+                        <span class="icon is-small">
+                          <i class="fa fa-trash"></i>
+                        </span>
+                        <span>Удалить</span>
+                      </button>
+                    </p>
+                  </div>
+              </td>
+            </tr>
+          </tbody>
+      </table>
+  </div>

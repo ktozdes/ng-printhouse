@@ -1,20 +1,27 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { Order } from 'src/app/models/order';
-import { PlateService } from 'src/app/services/plate.service';
-import { Plate } from 'src/app/models/plate';
-import { environment } from 'src/environments/environment';
-
-import { UploadOutput, UploadInput, UploadFile, UploaderOptions } from 'ngx-uploader';
+import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
+import { NgForm, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { authState, userState } from 'src/app/store/app-state';
+import { Observable } from 'rxjs';
+import { UploadOutput, UploadInput, UploadFile, UploaderOptions } from 'ngx-uploader';
+
+import { Order } from 'src/app/models/order';
+import { PlateUser } from 'src/app/models/plate-user';
+import { User } from 'src/app/models/user';
+import { Plate } from 'src/app/models/plate';
+import { Payment } from 'src/app/models/payment';
+import { Storage } from 'src/app/models/storage';
+import { File } from 'src/app/models/file';
+
+import { PlateService } from 'src/app/services/plate.service';
 import { MessageService } from 'src/app/services/message.service';
 import { FileUploaderService } from 'src/app/services/file-uploader.service';
 import { OrderService } from 'src/app/services/order.service';
-import { Router } from '@angular/router';
-import { PlateUser } from 'src/app/models/plate-user';
-import { User } from 'src/app/models/user';
+import { environment } from 'src/environments/environment';
+
+import { authState, userState } from 'src/app/store/app-state';
 import { getThisUser } from 'src/app/store/actions/user.actions';
+
 
 @Component({
   selector: 'app-order-create',
@@ -24,8 +31,6 @@ import { getThisUser } from 'src/app/store/actions/user.actions';
 export class OrderCreateComponent implements OnInit {
   order: Order = new Order();
   plates: Array<Plate>;
-  fileName: string;
-  fileId: number;
   formData: FormData;
   file: UploadFile;
   fileMetaData: any;
@@ -33,6 +38,7 @@ export class OrderCreateComponent implements OnInit {
   options: UploaderOptions;
   token: string;
 
+  @ViewChild('f', { static: true })userFrm: NgForm;
 
   pricing: PlateUser[];
   user: User;
@@ -56,6 +62,9 @@ export class OrderCreateComponent implements OnInit {
       this.order.y = true;
       this.order.k = true;
       this.order.pantone = false;
+      this.order.storage = new Storage();
+      this.order.payment = new Payment();
+      this.order.file = new File();
     });
     this.getPlates();
   }
@@ -82,6 +91,16 @@ export class OrderCreateComponent implements OnInit {
       }
     });
   }
+  canDeactivate(): Observable<boolean> | boolean {
+    if (this.userFrm.dirty && !this.userFrm.submitted) {
+      const result = window.confirm('Вы точно хотите не создавать заказ?');
+      if (this.order.file.id && result) {
+        this.deleteFile();
+      }
+      return result;
+    }
+    return true;
+}
 
   onUploadOutput(output: UploadOutput): void {
     if (output.type === 'allAddedToQueue') {
@@ -101,44 +120,43 @@ export class OrderCreateComponent implements OnInit {
     } else if (output.type === 'done') {
       this.messageService.setMessage({message: output.file.response.message, messageType: output.file.response.status});
       this.file =  output.file.response.file;
-      this.order.quantity = output.file.response.file.pages;
-      this.fileId = output.file.response.file_id;
+      this.order.file.pages = output.file.response.file.pages;
+      this.order.file.id = output.file.response.file.id;
       this.calculatePrice();
     }
   }
 
   deleteFile(): void {
-    this.fileUploaderService.deleteFile(this.fileId).subscribe({
+    this.fileUploaderService.deleteFile(this.order.file.id).subscribe({
       next: null,
       error: null,
       complete: () => {
-        this.fileId = null;
         this.file = null;
-        this.fileName = null;
+        this.order.file = new File();
       }
     });
   }
 
   calculatePrice() {
-    if (this.file && this.order.plateId) {
-      const selectedPlate = (this.user.pricing.length > 0)
-        ? this.user.pricing.find(price => (price.plate_id == this.order.plateId)).price
-        : this.plates.find(plate => (plate.id == this.order.plateId)).price;
+    if (this.file && this.order.storage.plate_id) {
+      const platePrice = (this.user.pricing.length > 0)
+        ? this.user.pricing.find(price => (price.plate_id == this.order.storage.plate_id)).price
+        : this.plates.find(plate => (plate.id == this.order.storage.plate_id)).price;
       const selectedColors = [this.order.c, this.order.m, this.order.y, this.order.k, this.order.pantone]
         .reduce(( accumulator, currentValue ) => {
           return (currentValue === true ) ? accumulator + 1 : accumulator;
         } , 0);
-      this.order.price = (this.order.quantity * selectedColors * parseFloat(selectedPlate)).toString();
+      this.order.payment.amount = (this.order.file.pages * selectedColors * parseFloat(platePrice)).toString();
     }
   }
 
   onSubmit(f: NgForm): void {
-    if (!this.fileId || !this.order.plateId ||
+    if (!this.order.file.id || !this.order.storage.plate_id ||
       (!this.order.c && !this.order.m && !this.order.y && !this.order.k && !this.order.pantone)) {
       console.log('no submit');
       return ;
     }
-    this.orderService.store(this.order, this.fileId).subscribe({
+    this.orderService.store(this.order, this.order.file.id).subscribe({
       next: () => {
         this.store.dispatch(getThisUser({}));
         this.router.navigate(['/dashboard/order/']);

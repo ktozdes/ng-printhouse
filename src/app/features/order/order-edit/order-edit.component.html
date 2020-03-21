@@ -16,7 +16,7 @@
                 <div class="field"  *ngIf="!order.file?.id">
                     <div class="file has-name is-primary is-fullwidth">
                         <label class="file-label">
-                            <input class="file-input" type="file" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"/>
+                            <input class="file-input" type="file"[ngModel]="fff" name="fff" ngFileSelect [options]="options" (uploadOutput)="onUploadOutput($event)" [uploadInput]="uploadInput"/>
                             <input  type="hidden" name="fileId" [value]='order.file?.id' required/>
                             <span class="file-cta">
                                 <span class="file-icon">
@@ -69,7 +69,7 @@
                             <label>Страниц: {{order.file.pages}}</label>
                         </div>
                         <div class="field">
-                            <label>Цена: {{order.price | currency:KGS:''}} сом</label>
+                            <label>Цена: {{order.storage.price | currency:KGS:''}} сом</label>
                         </div>
                     </div>
                 </div>
@@ -82,9 +82,9 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="select">
-                            <select name="plateId" [(ngModel)]="order.plateId" (change)="calculatePrice()">
+                            <select name="plateId" [(ngModel)]="order.storage.plate_id" (change)="calculatePrice()">
                                 <option disabled>Выберите Размер</option>
-                                <option *ngFor="let plate of plates" [value]='plate.id' [selected]='plate.id == order.plate_id'>{{plate.name}}</option>
+                                <option *ngFor="let plate of plates" [value]='plate.id' [selected]='plate.id == order.storage.plate_id'>{{plate.name}}</option>
                             </select>
                         </div>
                     </div>
@@ -98,9 +98,9 @@
                 <div class="field-body">
                     <div class="field">
                         <div class="select">
-                            <select name="statusID" [(ngModel)]="statusID">
+                            <select name="statusID" [(ngModel)]="order.status.id">
                                 <option disabled>Выберите Размер</option>
-                                <option *ngFor="let status of statuses" [value]='status.id' [selected]='status.id == order.status_id'>{{status.name}}</option>
+                                <option *ngFor="let status of statuses" [value]='status.id' [selected]='status.id == order.status.id'>{{status.name}}</option>
                             </select>
                         </div>
                     </div>
