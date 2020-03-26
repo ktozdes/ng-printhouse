@@ -2,28 +2,28 @@
     <p class="menu-label">
       Основной
     </p>
-    <ul class="menu-list">
-      <li *ngIf="permissionGuard.showMenuItem('menu dashboard')"><a routerLink="/dashboard" [routerLinkActiveOptions]="{exact:
+    <ul class="menu-list" *ngIf="permissions">
+      <li *ngIf="permissions.indexOf('menu dashboard')>=0"><a routerLink="/dashboard" [routerLinkActiveOptions]="{exact:
         true}" routerLinkActive="is-active">Главная</a></li>
-      <li *ngIf="permissionGuard.showMenuItem('menu order')"><a routerLink="/dashboard/order" [routerLinkActiveOptions]="{exact:
+      <li *ngIf="permissions.indexOf('menu order')>=0"><a routerLink="/dashboard/order" [routerLinkActiveOptions]="{exact:
         true}" routerLinkActive="is-active">Заказы</a></li>
         <li><ul>
-          <li *ngIf="permissionGuard.showMenuItem('menu order')"><a routerLink="/dashboard/order/create" [routerLinkActiveOptions]="{exact:
+          <li *ngIf="permissions.indexOf('menu order')>=0"><a routerLink="/dashboard/order/create" [routerLinkActiveOptions]="{exact:
             true}" routerLinkActive="is-active">Новые Заказы</a></li>
         </ul></li>
-      <li *ngIf="permissionGuard.showMenuItem('menu report')"><a routerLink="/dashboard/report/order" routerLinkActive="is-active">Отчет</a></li>
+      <li *ngIf="permissions.indexOf('menu report')>=0"><a routerLink="/dashboard/report/order" routerLinkActive="is-active">Отчет</a></li>
     </ul>
-    <p class="menu-label" *ngIf="permissionGuard.showMenuItem('menu payment') || permissionGuard.showMenuItem('menu storage')">
+    <p class="menu-label" *ngIf="permissions.indexOf('menu payment')>=0">
       Администратор
     </p>
     <ul class="menu-list">
-      <li *ngIf="permissionGuard.showMenuItem('menu user')"><a routerLink="/dashboard/user" [routerLinkActiveOptions]="{exact:
+      <li *ngIf="permissions.indexOf('menu user')>=0"><a routerLink="/dashboard/user" [routerLinkActiveOptions]="{exact:
         true}" routerLinkActive="is-active">Пользователи</a></li>
-      <li *ngIf="permissionGuard.showMenuItem('menu payment')"><a routerLink="/dashboard/payment" routerLinkActive="is-active">Оплата</a></li>
-      <li *ngIf="permissionGuard.showMenuItem('menu storage')"><a routerLink="/dashboard/storage" [routerLinkActiveOptions]="{exact:
+      <li *ngIf="permissions.indexOf('menu payment')>=0"><a routerLink="/dashboard/payment" routerLinkActive="is-active">Оплата</a></li>
+      <li *ngIf="permissions.indexOf('menu storage')>=0"><a routerLink="/dashboard/storage" [routerLinkActiveOptions]="{exact:
         true}" routerLinkActive="is-active">Склад</a></li>
       <li><ul>
-        <li *ngIf="permissionGuard.showMenuItem('menu storage')"><a routerLink="/dashboard/storage/create" [routerLinkActiveOptions]="{exact:
+        <li *ngIf="permissions.indexOf('menu storage')>=0"><a routerLink="/dashboard/storage/create" [routerLinkActiveOptions]="{exact:
           true}" routerLinkActive="is-active">Новая Пластина</a></li>
       </ul></li>
     </ul>

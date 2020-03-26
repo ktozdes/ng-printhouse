@@ -91,11 +91,11 @@
                 </div>
             </div>
 
-            <div class="field is-horizontal" *ngIf="permissionGuard.showMenuItem('order user all') && statuses">
+            <div class="field is-horizontal" *appHasPermission="'order user all'">
                 <div class="field-label">
                   <label class="label">Статус</label>
                 </div>
-                <div class="field-body">
+                <div class="field-body" *ngIf="statuses && order.status">
                     <div class="field">
                         <div class="select">
                             <select name="statusID" [(ngModel)]="order.status.id">

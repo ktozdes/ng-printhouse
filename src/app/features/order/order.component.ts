@@ -3,6 +3,8 @@ import { Order } from 'src/app/models/order';
 import { OrderService } from 'src/app/services/order.service';
 import { Router } from '@angular/router';
 import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
+import { Store } from '@ngrx/store';
+import { getThisUser } from 'src/app/store/actions/user.actions';
 
 @Component({
   selector: 'app-order',
@@ -11,11 +13,14 @@ import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
 })
 export class OrderComponent implements OnInit {
   orders: Order[];
+  seeAllUsers = false;
   page = 1;
   constructor(private orderService: OrderService,
               private permissionGuard: PermissionGuard,
+              private store: Store<any>,
               private router: Router) {
       this.getOrders();
+      this.seeAllUsers = this.permissionGuard.showMenuItem('order user all');
     }
 
   ngOnInit() {
@@ -54,7 +59,10 @@ export class OrderComponent implements OnInit {
     if (confirm('Вы точно хотите удалить этот заказ?')) {
       this.orderService.destroy(id).subscribe({
         next: (res: any) => {
-          this.getOrders();
+          this.store.dispatch(getThisUser({}));
+          this.router.navigateByUrl('/dashboard/report', { skipLocationChange: true }).then(() => {
+            this.router.navigate(['dashboard/order']);
+          });
         }
       });
     }

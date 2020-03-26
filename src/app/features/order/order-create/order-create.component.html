@@ -69,6 +69,25 @@
                 </div>
             </div>
 
+            <div class="field is-horizontal" *appHasPermission="'order user all'">
+                <div class="field-label">
+                  <label class="label">Клиент</label>
+                </div>
+                <div class="field-body" *ngIf="users">
+                    <div class="field">
+                        <div class="select">
+                            <select name="userID" [(ngModel)]="order.user_id" #userID="ngModel">
+                                <option disabled>Выберите Клиента</option>
+                                <option *ngFor="let user of users" [value]='user.id'>{{user.name}}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="!order.user_id && (userID.dirty || userID.touched || f.submitted)" class="help is-danger">
+                            Объязательное поле
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="field is-horizontal" *ngIf="plates">
                 <div class="field-label">
                   <label class="label">Размер Пластины</label>

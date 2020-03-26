@@ -74,14 +74,14 @@ export class AuthEffects {
       localStorage.setItem('token', payload.token);
       localStorage.setItem('login_date', (new Date()).toUTCString() );
       this.store.dispatch(getThisUser({}));
-      
-      this.store.select(userState).subscribe((state) => {
+      const sub = this.store.select(userState).subscribe((state) => {
         if (Array.isArray(state.permissions) ) {
           if (state.permissions.indexOf('menu dashboard') >= 0) {
             this.router.navigate(['/dashboard']);
           } else {
             this.router.navigate(['/dashboard/order/create']);
           }
+          sub.unsubscribe();
         }
       });
       return { type: '[Auth] EMPTY' };

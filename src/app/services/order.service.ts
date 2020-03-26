@@ -61,7 +61,6 @@ export class OrderService {
     return this.http.post(`${environment.backendUrl}/order/update`, {order, file_id: fileId})
     .pipe(
       map((response: any) => {
-        console.log(response);
         this.messageService.setMessage({message: response.message, messageType: response.status});
         return true;
       }),
@@ -72,8 +71,8 @@ export class OrderService {
     );
   }
 
-  changeStatus(orderID: any, statusID: any): Observable<any> {
-    return this.http.post(`${environment.backendUrl}/order/change_status`, {order_id: orderID, status_id: statusID})
+  changeStatus(orderID: any, statusID: any, quantity: number): Observable<any> {
+    return this.http.post(`${environment.backendUrl}/order/change_status`, {order_id: orderID, status_id: statusID, quantity})
     .pipe(
       map((response: any) => {
         this.messageService.setMessage({message: response.message, messageType: response.status});

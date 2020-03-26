@@ -11,6 +11,8 @@ import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule, MatFormFieldModule, MatInputModule, MAT_DATE_LOCALE} from '@angular/material';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -20,11 +22,13 @@ import {MatNativeDateModule, MatFormFieldModule, MatInputModule, MAT_DATE_LOCALE
     ReportRoutingModule,
     InfiniteScrollModule,
     FormsModule,
+    SharedModule,
 
     MatNativeDateModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
+    ChartsModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }

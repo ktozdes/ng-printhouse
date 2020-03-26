@@ -21,6 +21,8 @@ import { environment } from 'src/environments/environment';
 
 import { authState, userState } from 'src/app/store/app-state';
 import { getThisUser } from 'src/app/store/actions/user.actions';
+import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
+import { UserService } from 'src/app/services/user.service';
 
 
 @Component({
@@ -37,16 +39,19 @@ export class OrderCreateComponent implements OnInit {
   uploadInput: EventEmitter<UploadInput>;
   options: UploaderOptions;
   token: string;
+  pricing: PlateUser[];
+  user: User;
+  users: Array<User>;
 
   @ViewChild('f', { static: true })userFrm: NgForm;
 
-  pricing: PlateUser[];
-  user: User;
   constructor(private plateService: PlateService,
               private messageService: MessageService,
               private fileUploaderService: FileUploaderService,
               private orderService: OrderService,
+              private userService: UserService,
               private router: Router,
+              private permissionGuard: PermissionGuard,
               private store: Store <any>) {
     this.options = { concurrency: 1, maxUploads: 3, maxFileSize: 1754429730 };
     this.uploadInput = new EventEmitter<UploadInput>();
@@ -67,6 +72,9 @@ export class OrderCreateComponent implements OnInit {
       this.order.file = new File();
     });
     this.getPlates();
+    if (this.permissionGuard.showMenuItem('order user all')){
+      this.getUsers();
+    }
   }
 
   ngOnInit() {
@@ -91,6 +99,18 @@ export class OrderCreateComponent implements OnInit {
       }
     });
   }
+
+  getUsers() {
+    this.userService.list().subscribe({
+      next: (res: any) => {
+        this.users = res.users;
+      },
+      error: null,
+      complete: () => {
+      }
+    });
+  }
+
   canDeactivate(): Observable<boolean> | boolean {
     if (this.userFrm.dirty && !this.userFrm.submitted) {
       const result = window.confirm('Вы точно хотите не создавать заказ?');

@@ -54,7 +54,6 @@ export class EditUserComponent implements OnInit {
             };
           });
         }
-        console.log(this.user, this.plates, this.pricing);
       }
     });
   }

@@ -23,7 +23,6 @@ export class PaymentComponent implements OnInit {
     this.userService.list().subscribe({
       next: (res: any) => {
         this.userList = res.users;
-        console.log(typeof this.userList, this.userList);
         //this.router.navigate(['/dashboard/storage']);
       },
       error: null,

@@ -4,8 +4,6 @@ import { RouterModule } from '@angular/router';
 
 import {CarouselComponent} from './carousel/carousel.component';
 import { ModalInfoComponent } from './modalInfo/modalInfo.component';
-import { MustMatchDirective } from './directives/must-match.directive';
-
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { HeaderComponent } from './layouts/header/header.component';
 import { FooterComponent } from './layouts/footer/footer.component';
@@ -13,10 +11,19 @@ import { SidebarComponent } from './layouts/sidebar/sidebar.component';
 import { NotificationComponent } from './notification/notification.component';
 import { RatingComponent } from './rating/rating.component';
 
+import { MustMatchDirective } from './directives/must-match.directive';
+import { HasPermissionDirective } from '../shared/directives/has-permission.directive';
+
+import { OrderPricePipe } from 'src/app/pipes/order-price.pipe';
 import { FormsModule } from '@angular/forms';
+import { TestDirectiveDirective } from './directives/test-directive.directive';
 
 @NgModule({
   declarations: [
+    OrderPricePipe,
+
+    HasPermissionDirective,
+
     CarouselComponent,
     ModalInfoComponent,
     MustMatchDirective,
@@ -26,7 +33,8 @@ import { FormsModule } from '@angular/forms';
     FooterComponent,
     SidebarComponent,
     NotificationComponent,
-    RatingComponent
+    RatingComponent,
+    TestDirectiveDirective,
   ],
   imports: [
     CommonModule,
@@ -34,11 +42,15 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   exports: [
+    HasPermissionDirective,
+    
+    OrderPricePipe,
+
     RouterModule,
     CarouselComponent,
     ModalInfoComponent,
     MainLayoutComponent,
-    RatingComponent
+    RatingComponent,
   ]
 })
 export class SharedModule {

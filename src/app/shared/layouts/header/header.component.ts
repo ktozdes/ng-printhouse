@@ -52,6 +52,9 @@ export class HeaderComponent implements OnInit {
   gotoProfile() {
     this.router.navigate(['/dashboard/user/edit/', { id: this.thisUser.id }]);
   }
+  gotoPeport() {
+    this.router.navigate(['/dashboard/report/balance']);
+  }
 
   logOut() {
     this.store.dispatch(logout({}));

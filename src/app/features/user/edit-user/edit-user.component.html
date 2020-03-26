@@ -144,7 +144,7 @@
                 </div>
             </div>
         </div>
-        <div class="column" *ngIf="permissionGuard.showMenuItem('profile edit additional')">
+        <div class="column" *appHasPermission="'profile edit additional'">
             <div class="field is-horizontal">
                 <div class="field-label has-text-left">
                     <label class="label">Тип Пользователя</label>

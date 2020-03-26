@@ -9,6 +9,7 @@ import { OrderCreateComponent } from './order-create/order-create.component';
 import { NgxUploaderModule } from 'ngx-uploader';
 import { YesNoPipe } from 'src/app/pipes/yes-no.pipe';
 import { OrderEditComponent } from './order-edit/order-edit.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -25,7 +26,8 @@ import { OrderEditComponent } from './order-edit/order-edit.component';
     FormsModule,
     ReactiveFormsModule,
     NgxUploaderModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
+    SharedModule
   ]
 })
 export class OrderModule { }

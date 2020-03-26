@@ -3,6 +3,7 @@ export class Plate {
     name: string;
     specification?: string;
     price?: string;
+    user_price?: string;
     producer?: string;
     quantity?: string;
     width?: string;

@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Order } from 'src/app/models/order';
 import { Store } from '@ngrx/store';
 import { authState } from 'src/app/store/app-state';
-import { parse } from 'querystring';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,9 +15,7 @@ export class DashboardComponent implements OnInit {
   orders: Order[];
   page = 1;
   constructor(private orderService: OrderService,
-              private permissionGuard: PermissionGuard,
-              private store: Store<any>,
-              private router: Router) {
+              private store: Store<any>) {
       this.store.select(authState).subscribe((state) => {
         if (typeof state.token === 'string') {
           this.getOrders();
@@ -51,7 +48,7 @@ export class DashboardComponent implements OnInit {
     const index = this.getOrderIndexByID(orderID);
     window.open(this.orders[index].file.url, '_blank');
     if ( this.orders[index].status.id == '1' ) {
-      this.orderService.changeStatus(orderID, 2).subscribe({
+      this.orderService.changeStatus(orderID, 2, 0).subscribe({
         next: (res: any) => {
           this.orders[index].status.id = '2';
         }
@@ -61,20 +58,14 @@ export class DashboardComponent implements OnInit {
 
   changeStatus(orderID: number, statusID: number) {
     const index = this.getOrderIndexByID(orderID);
-    let plateQuantity = '';
+    let plateQuantity = 0;
     if (statusID == 3) {
-      const selectedColors = [this.orders[index].c, this.orders[index].m, this.orders[index].y, this.orders[index].k, this.orders[index].pantone]
-      .reduce(( accumulator, currentValue ) => {
-        return (currentValue === true || currentValue === 1) ? accumulator + 1 : accumulator;
-      } , 0);
-      plateQuantity = prompt('Подтвердите, количество использованных пластин',
-        (selectedColors * this.orders[index].storage.quantity).toString());
-      if (plateQuantity !== null && Math.abs(selectedColors * this.orders[index].storage.quantity - parseInt(plateQuantity, 10) ) > 0.0001) {
-        
-      }
+      const repsonse =  prompt('Подтвердите, количество использованных пластин',
+        (this.orders[index].storage.quantity).toString());
+      plateQuantity = (repsonse === null) ? -1 : parseInt(repsonse, 10);
     }
-    if (plateQuantity !== null) {
-      this.orderService.changeStatus(orderID, statusID).subscribe({
+    if (plateQuantity >= 0) {
+      this.orderService.changeStatus(orderID, statusID, plateQuantity).subscribe({
         next: (res: any) => {
           this.orders[index].status.id = statusID.toString();
         }

@@ -14,8 +14,7 @@ export class AuthGuard implements CanActivate, CanActivateChild, CanLoad {
 
   constructor(
     private store: Store <any>,  private router: Router) {
-      const getState = this.store.select(authState);
-      getState.subscribe((state) => {
+      this.store.select(authState).subscribe((state) => {
         this.authenticated = state.authenticated;
       });
     }

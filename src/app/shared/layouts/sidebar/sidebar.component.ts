@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
+import { PermissionGuard } from '../../guards/permission.guard';
+import { Store } from '@ngrx/store';
+import { userState } from 'src/app/store/app-state';
 
 @Component({
   selector: 'app-sidebar',
@@ -8,10 +10,17 @@ import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
 })
 
 export class SidebarComponent implements OnInit {
-  constructor(private permissionGuard: PermissionGuard) {
+  permissions: Array<string>;
+  constructor(private store: Store <any>,
+    private permissionGuard: PermissionGuard) {
+    const getState = this.store.select(userState);
+    getState.subscribe((state) => {
+      this.permissions = state.permissions;
+    });
   }
 
   ngOnInit() {
+    //this.permissionGuard.showMenuItem();
   }
 
 }

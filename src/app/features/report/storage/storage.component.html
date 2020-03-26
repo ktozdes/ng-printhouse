@@ -18,7 +18,7 @@
                 <span>Баланс</span>
             </a>
         </li>
-        <li class="is-active" *ngIf="permissionGuard.showMenuItem('report storage')">
+        <li class="is-active" *appHasPermission="'report storage'">
             <a routerLink="/dashboard/report/storage">
                 <span class="icon is-small"><i class="fa fa-clone" aria-hidden="true"></i></span>
                 <span>Склад</span>
@@ -76,19 +76,23 @@
             <thead>
               <tr>
                 <th>Дата</th>
-                <th>Цена</th>
-                <th>Количество</th>
+                <th>Операция</th>
                 <th>Пластина</th>
                 <th>Добавлял</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Сумма</th>
               </tr>
             </thead>
             <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
               <tr *ngFor="let storage of storages" [attr.storage-id]="storage.id">
                 <td>{{storage.created_at | date:'dd/MM/yyyy'}}</td>
-                <td>{{storage.price | currency:KGS:''}} сом</td>
-                <td>{{storage.quantity}}</td>
+                <td>{{storage.name}}</td>
                 <td>{{storage.plate_name}}</td>
                 <td>{{storage.manager_name}}</td>
+                <td>{{storage.price | currency:KGS:''}} сом</td>
+                <td>{{storage.quantity}}</td>
+                <td>{{storage.summa}}</td>
               </tr>
             </tbody>
           </table>
