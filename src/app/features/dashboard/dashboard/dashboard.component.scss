@@ -18,3 +18,26 @@ tr.status-id-3 {
     background: #48c774;
     color: white;
 }
+
+.filter-group {
+    padding: 0px 10px;
+    border: 1px solid #777;
+    border-radius: 5px;
+    margin: 0 10px;
+}
+mat-form-field {
+    margin: 0 5px;
+    width: 120px;
+}
+.button {
+    margin: 0.43rem 0.2rem;
+}
+.table-container{
+    max-width: 90%;
+}
+
+@media screen and (max-width: 766px) {
+    .filter-group{
+        display: block;
+    }
+}

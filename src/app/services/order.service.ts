@@ -31,8 +31,15 @@ export class OrderService {
     );
   }
 
-  list(pageNumber = 0): Observable<any> {
-    const params = new HttpParams().set('page', pageNumber.toString());
+  list(startDate: string, endDate: string, sortBy = '', statusID = 'all', userID = 'all', plateID = 'all', page = 0): Observable<any> {
+    const params = new HttpParams()
+    .set('start_time', (startDate || '') )
+    .set('end_time', (endDate || ''))
+    .set('user_id', (userID || 'all'))
+    .set('sort_by', (sortBy || 'date_desc'))
+    .set('status_id', (statusID || 'all'))
+    .set('plate_id', (plateID || 'all'))
+    .set('page', (page.toString() || '0'));
     return this.http.get(`${environment.backendUrl}/order/list`, {params} )
     .pipe(
       map((response: any) => {

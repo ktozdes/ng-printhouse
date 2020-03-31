@@ -24,6 +24,60 @@
     </div>
   </div>
 
+<div class="tile has-text-centered">
+  <mat-form-field>
+      <mat-label>Сортировать</mat-label>
+      <select matNativeControl [(ngModel)]="sortBy">
+      <option value="date_desc">Новые</option>
+      <option value="date_asc">Старые</option>
+      <option value="plate_quantity_desc">Пластина Убывание</option>
+      <option value="plate_quantity_asc">Пластина Возрастание</option>
+      </select>
+  </mat-form-field>
+  <div class="field is-grouped filter-group">
+
+    <mat-form-field *appHasPermission="'report user all'">
+        <mat-label>Клиенты</mat-label>
+        <select matNativeControl [(ngModel)]="userID">
+        <option value="all">Все</option>
+        <option *ngFor="let user of userList" [value]='user.id' >{{user.name}}</option>
+        </select>
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label>Статус</mat-label>
+        <select matNativeControl [(ngModel)]="statusID">
+        <option value="all">Все</option>
+        <option *ngFor="let status of statuses" [value]='status.id' >{{status.name}}</option>
+        </select>
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label>Пластины</mat-label>
+        <select matNativeControl [(ngModel)]="plateID">
+        <option value="all">Все</option>
+        <option *ngFor="let plate of plateList" [value]='plate.id' >{{plate.name}}</option>
+        </select>
+    </mat-form-field>
+
+      <mat-form-field>
+          <mat-label>Начало: </mat-label>
+          <input matInput [matDatepicker]="picker" [(ngModel)]="startDate">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker startView="year" [startAt]="startDate"></mat-datepicker>
+      </mat-form-field>
+      
+      <mat-form-field>
+          <mat-label>Конец: </mat-label>
+          <input matInput [matDatepicker]="picker2" [(ngModel)]="endDate">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2 startView="year" [startAt]="startDate"></mat-datepicker>
+      </mat-form-field>
+
+      <button class="button is-info" (click)="onSubmit()">Искать</button>
+  </div>
+</div>
+
 <div class="table-container">
     <table class="table is-bordered is-narrow is-fullwidth">
         <thead>
@@ -36,6 +90,7 @@
             <th>Комментарий</th>
             <th>Цена</th>
             <th>Кол. Пластин</th>
+            <th>Дата</th>
             <th>Действия</th>
           </tr>
         </thead>
@@ -55,6 +110,7 @@
               <td>{{order.comment}}</td>
               <td>{{order | orderPrice |currency:KGS:''}} сом</td>
               <td>{{order.storage.quantity}}</td>
+              <td>{{order.created_at | date:'dd/MM/yyyy'}}</td>
               <td>
                 <div class="field has-addons">
                     <p class="control">

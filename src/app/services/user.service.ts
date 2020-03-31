@@ -20,6 +20,24 @@ export class UserService {
   list(): Observable<any> {
     return this.http.get(`${environment.backendUrl}/user/list`);
   }
+
+  store(user: User, pricing: PlateUser[]): Observable<any> {
+    return this.http.post(`${environment.backendUrl}/user/store`, {new_user: user, pricing})
+    .pipe(
+      map((response: any) => {
+        this.messageService.setMessage({message: response.message, messageType: response.status});
+        return response;
+      }),
+      catchError((err, caught) => {
+        const values = Object.values(err.error.errors);
+        values.map((element, index) => {
+          this.messageService.setMessage({message: element[0], messageType: 'error'});
+        });
+        return throwError(err);
+      })
+    );
+  }
+
   edit(userID: any ): Observable<any> {
     const params = new HttpParams().set('id', userID.toString());
     return this.http.get(`${environment.backendUrl}/user/edit`, {params} )

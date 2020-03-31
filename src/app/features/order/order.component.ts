@@ -27,7 +27,7 @@ export class OrderComponent implements OnInit {
   }
 
   getOrders(): void {
-    this.orderService.list(this.page).subscribe({
+    this.orderService.list(null, null, null, null, null, null, this.page).subscribe({
       next: (res: any) => {
         if (this.page <= 1) {
           this.orders = res.data;

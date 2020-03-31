@@ -7,6 +7,9 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule, MatFormFieldModule, MatInputModule, MAT_DATE_LOCALE} from '@angular/material';
+
 @NgModule({
   declarations: [DashboardComponent],
   imports: [
@@ -14,7 +17,15 @@ import { SharedModule } from 'src/app/shared/shared.module';
     FormsModule,
     InfiniteScrollModule,
     DashboardRoutingModule,
-    SharedModule
+    SharedModule,
+
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'ru-RU' }
   ]
 })
 export class DashboardModule { }

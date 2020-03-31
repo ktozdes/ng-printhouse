@@ -2,7 +2,7 @@
     <p class="menu-label">
       Основной
     </p>
-    <ul class="menu-list" *ngIf="permissions">
+    <ul class="menu-list" *ngIf="permissions && permissions.length > 0">
       <li *ngIf="permissions.indexOf('menu dashboard')>=0"><a routerLink="/dashboard" [routerLinkActiveOptions]="{exact:
         true}" routerLinkActive="is-active">Главная</a></li>
       <li *ngIf="permissions.indexOf('menu order')>=0"><a routerLink="/dashboard/order" [routerLinkActiveOptions]="{exact:
@@ -18,7 +18,11 @@
     </p>
     <ul class="menu-list">
       <li *ngIf="permissions.indexOf('menu user')>=0"><a routerLink="/dashboard/user" [routerLinkActiveOptions]="{exact:
-        true}" routerLinkActive="is-active">Пользователи</a></li>
+        true}" routerLinkActive="is-active">Клиенты</a></li>
+      <li><ul>
+        <li *ngIf="permissions.indexOf('menu user')>=0"><a routerLink="/dashboard/user/create" [routerLinkActiveOptions]="{exact:
+          true}" routerLinkActive="is-active">Новый Клиент</a></li>
+      </ul></li>
       <li *ngIf="permissions.indexOf('menu payment')>=0"><a routerLink="/dashboard/payment" routerLinkActive="is-active">Оплата</a></li>
       <li *ngIf="permissions.indexOf('menu storage')>=0"><a routerLink="/dashboard/storage" [routerLinkActiveOptions]="{exact:
         true}" routerLinkActive="is-active">Склад</a></li>

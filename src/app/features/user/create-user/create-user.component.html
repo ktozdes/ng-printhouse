@@ -1,0 +1,225 @@
+<div class="level">
+    <div class="level-left">
+        <div class="title">Новый Клиент</div>
+    </div>
+</div>
+
+<form name="form" (ngSubmit)="f.form.valid && onSubmit(f)" class="box" #f="ngForm">
+<div class="columns is-multiline">
+        <div class="column">
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">Логин</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control">
+                            <input type="text" [(ngModel)]="user.name" #name="ngModel" name="name" [ngClass]="{ 'is-danger': f.submitted && name.invalid }" placeholder="Алмазбек Алмазбеков Алмазбекович" class="input" required>
+                        </p>
+                        <div *ngIf="name.invalid && (name.dirty || name.touched || f.submitted)" class="help is-danger">
+                            Объязательное поле
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">ФИО</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input class="input" type="text" name="fullname" [(ngModel)]="user.fullname" placeholder="Алмазбек Алмазбеков Алмазбекович">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">Компания</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input class="input" type="text" [(ngModel)]="user.company" name="company" #company="ngModel" [ngClass]="{ 'is-danger': f.submitted && company.invalid }" placeholder="printhouse" required>
+                        </p>
+                    </div>
+                    <div *ngIf="company.invalid && (company.dirty || company.touched || f.submitted)"
+                        class="help is-danger">
+                        Объязательное поле
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">Телефон 1</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input class="input" type="text" name="phone1" [(ngModel)]="user.phone1" #phone1="ngModel" [ngClass]="{ 'is-danger': f.submitted && phone1.invalid }" placeholder="(555)99 99 99" required>
+                        </p>
+                    </div>
+                    <div *ngIf="phone1.invalid && (phone1.dirty || phone1.touched || f.submitted)"
+                        class="help is-danger">
+                        Объязательное поле
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">Телефон 2</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input class="input" type="text" name="phone2" [(ngModel)]="user.phone2" placeholder="(555)99 99 99">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">Электронный Адрес</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input class="input" type="text" name="email" [(ngModel)]="user.email" placeholder="almazbek@printhouse.kg">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">Адрес</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <input class="input" type="text" name="address" [(ngModel)]="user.address" placeholder="ул. Киевская 12">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification" >
+                <div class="field is-horizontal">
+                    <div class="field-label has-text-left">
+                      <label class="label">Новый Пароль</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control is-expanded">
+                                <input class="input" type="password" [(ngModel)]="user.password" name="password" #password="ngModel" [ngClass]="{ 'is-danger': f.submitted && password.invalid }" placeholder="*******" required>
+                            </p>
+                            <div *ngIf="password.invalid && (password.dirty || password.touched || f.submitted)"
+                                class="help is-danger">
+                                Объязательное поле
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field is-horizontal">
+                    <div class="field-label has-text-left">
+                      <label class="label">Повторите Пароль</label>
+                    </div>
+                    <div class="field-body">
+                        <div class="field">
+                            <p class="control is-expanded">
+                                <input class="input" type="password" [(ngModel)]="user.repeatPassword" name="repeatPassword" #repeatPassword="ngModel" [ngClass]="{ 'is-danger': f.submitted && repeatPassword.invalid }" required>
+                            </p>
+
+                            <div *ngIf="repeatPassword.invalid && (repeatPassword.dirty || repeatPassword.touched || f.submitted)"
+                                class="help is-danger">
+                                Объязательное поле
+                                <div *ngIf="repeatPassword.hasError('mismatch')">
+                                    Поля Паролей не совпадают
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="column" *appHasPermission="'profile edit additional'">
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">Активный</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <input id="active" type="checkbox" name="active" [(ngModel)]="user.active" [checked]="user.active" class="switch is-rounded">
+                        <label for="active">Активный</label>
+                    </div>
+                </div>
+            </div>
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">Доверие</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control is-expanded">
+                            <app-rating [rating]="user.trust" [ranks]="ranks" (notify)="onNotify($event)"></app-rating>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Комментарий</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <textarea name="comment" class="textarea" [(ngModel)]="user.comment" placeholder="Допольнительные сведения">{{user.comment}}</textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label has-text-left">
+                  <label class="label">Прайс</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+                            <thead>
+                              <tr>
+                                <th>Пластина</th>
+                                <th>Цена</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let price of pricing">
+                                    <td>{{price.name}}</td><td>
+                                        <div class="control is-expanded  has-icons-left">
+                                            <input class="input" type="text" name="pricing[{{price.id}}]" [(ngModel)]="price.price" placeholder="500 som">
+                                            <span class="icon is-small is-left"><i class="fa fa-money"></i></span>
+                                        </div>
+                                        </td>
+                                  </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="columns is-multiline">
+        <div class="column">
+            <div class="field ">
+                <button class="button is-info">
+                    Сохранить Изменения
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
