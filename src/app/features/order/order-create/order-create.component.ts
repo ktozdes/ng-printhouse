@@ -70,6 +70,11 @@ export class OrderCreateComponent implements OnInit {
       this.order.storage = new Storage();
       this.order.payment = new Payment();
       this.order.file = new File();
+
+      const defaultPlateID = localStorage.getItem('default_plate_id');
+      if (defaultPlateID) {
+        this.order.storage.plate_id = parseInt(defaultPlateID, 10);
+      }
     });
     this.getPlates();
     if (this.permissionGuard.showMenuItem('order user all')){
@@ -176,6 +181,7 @@ export class OrderCreateComponent implements OnInit {
       console.log('no submit');
       return ;
     }
+    localStorage.setItem('default_plate_id', this.order.storage.plate_id.toString() );
     this.orderService.store(this.order, this.order.file.id).subscribe({
       next: () => {
         this.store.dispatch(getThisUser({}));

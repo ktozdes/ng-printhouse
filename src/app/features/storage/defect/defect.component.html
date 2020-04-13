@@ -1,0 +1,67 @@
+<div class="level">
+    <div class="level-left">
+        <div class="title">Брак</div>
+    </div>
+</div>
+
+<div class="columns is-multiline">
+    <div class="column">
+        <form name="form" (ngSubmit)="f.form.valid && onSubmit()" class="box" #f="ngForm">
+
+            <div class="field is-horizontal" *ngIf="plateList">
+                <div class="field-label">
+                  <label class="label">Пластинa</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="select">
+                            <select name="plateID" [(ngModel)]="storage.plate_id" #plateID="ngModel">
+                                <option disabled>Выберите Размер</option>
+                                <option *ngFor="let plate of plateList" [value]='plate.id' >{{plate.name}}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="!storage.plate_id && (plateID.dirty || plateID.touched || f.submitted)" class="help is-danger">
+                            Объязательное поле
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Количество</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control is-expanded  has-icons-left">
+                            <input class="input" type="text" #quantity="ngModel" name="quantity" [(ngModel)]="storage.quantity">
+                            <span class="icon is-small is-left">
+                                <i class="fa fa-money"></i>
+                            </span>
+                        </div>
+                        <div *ngIf="!storage.quantity && (f.submitted)" class="help is-danger">
+                            Объязательное поле
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field is-horizontal">
+                <div class="field-label">
+                  <label class="label">Комментарий</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <textarea name="comment" class="textarea" [(ngModel)]="comment" placeholder="Причина брака"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="field ">
+                <button class="button is-info">
+                    Добавить Брак
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

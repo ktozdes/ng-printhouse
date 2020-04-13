@@ -29,6 +29,8 @@
       <li><ul>
         <li *ngIf="permissions.indexOf('menu storage')>=0"><a routerLink="/dashboard/storage/create" [routerLinkActiveOptions]="{exact:
           true}" routerLinkActive="is-active">Новая Пластина</a></li>
+        <li *ngIf="permissions.indexOf('menu defect')>=0"><a routerLink="/dashboard/storage/defect" [routerLinkActiveOptions]="{exact:
+            true}" routerLinkActive="is-active">Брак</a></li>
       </ul></li>
     </ul>
   </aside>

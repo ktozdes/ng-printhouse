@@ -10,17 +10,17 @@ import { userState } from 'src/app/store/app-state';
 })
 
 export class SidebarComponent implements OnInit {
-  permissions: Array<string>;
-  constructor(private store: Store <any>,
-    private permissionGuard: PermissionGuard) {
+  permissions = [];
+  constructor(private store: Store <any>) {
     const getState = this.store.select(userState);
     getState.subscribe((state) => {
-      this.permissions = state.permissions;
+      if (state.permissions) {
+        this.permissions = state.permissions;
+      }
     });
   }
 
   ngOnInit() {
-    //this.permissionGuard.showMenuItem();
   }
 
 }

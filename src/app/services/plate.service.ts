@@ -31,6 +31,19 @@ export class PlateService {
       })
     );
   }
+  addDefect(storage: Storage, comment: string): Observable<any> {
+    return this.http.post(`${environment.backendUrl}/storage/add_defect`, {storage, comment})
+    .pipe(
+      map((response: any) => {
+        this.messageService.setMessage({message: response.message, messageType: response.status});
+        return true;
+      }),
+      catchError((err, caught) => {
+        this.messageService.setMessage({message: err.error.message, messageType: err.error.status});
+        return empty();
+      })
+    );
+  }
 
   edit(plateID: any ): Observable<any> {
     const params = new HttpParams().set('id', plateID.toString());

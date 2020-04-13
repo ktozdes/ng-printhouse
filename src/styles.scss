@@ -3,6 +3,9 @@
 @import 'app/styles/variables';
 @import 'app/styles/mixins';
 
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
 .notification.is-error {
     background-color: #f14668;
     color: #fff;
@@ -15,6 +18,8 @@
     background-color: #48c774;
     color:white;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.table-container{
+    max-width: 90%;
+}
 

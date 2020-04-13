@@ -16,8 +16,9 @@ export class HeaderComponent implements OnInit {
   @Input()
   routerLoading: boolean;
   showBurgerMenu = false;
-
+  permissions = [];
   thisUser: User;
+
   constructor(
     private store: Store <any>,
     private messageService: MessageService,
@@ -25,7 +26,10 @@ export class HeaderComponent implements OnInit {
     ) {
       const getState = this.store.select(userState);
       getState.subscribe((state) => {
-        this.thisUser = state.user;
+        if (state.user && state.permissions) {
+          this.thisUser = state.user;
+          this.permissions = state.permissions;
+        }
       });
     }
 
@@ -49,9 +53,14 @@ export class HeaderComponent implements OnInit {
     // });
   }
 
+  gotoDefect() {
+    this.router.navigate(['/dashboard/storage/defect/']);
+  }
+
   gotoProfile() {
     this.router.navigate(['/dashboard/user/edit/', { id: this.thisUser.id }]);
   }
+
   gotoPeport() {
     this.router.navigate(['/dashboard/report/balance']);
   }
