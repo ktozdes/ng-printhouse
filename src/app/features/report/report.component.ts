@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
 import { ChartsModule } from 'ng2-charts';
+import { ReportService } from 'src/app/services/report.service';
 //import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
@@ -9,60 +10,43 @@ import { ChartsModule } from 'ng2-charts';
   styleUrls: ['./report.component.scss']
 })
 export class ReportComponent implements OnInit {
+  startDate: Date;
+  endDate: Date;
+  revenue: Array<any>;
+  ordersByUser: Array<any>;
+  platesByPopularity: Array<any>;
+  salesByMonth: Array<any>;
+  constructor(private reportService: ReportService,
+              private permissionGuard: PermissionGuard) {
+    const monthAgo = new Date();
+    monthAgo.setMonth(monthAgo.getMonth() - 1);
+    monthAgo.setDate(1);
+    this.startDate = monthAgo;
+    this.endDate = new Date();
+    this.getChartData();
+  }
 
-  constructor(private permissionGuard: PermissionGuard) { }
-  public SystemName: string = 'MF1';
-  firstCopy = false;
-
-  // data
-  public lineChartData: Array<number> = [ 1, 8, 30];
-
-  public labelMFL: Array<any> = [
-      { data: this.lineChartData,
-        label: this.SystemName
-      }
-  ];
-  // labels
-  public lineChartLabels: Array<any> = ['2018-01-29 10:00:00', '2018-01-29 10:27:00', '2018-01-29 10:28:00'];
-  public lineChartOptions: any = {
-    responsive: true,
-    scales : {
-      yAxes: [{
-        // ticks: {
-        //   max : 60,
-        //   min : 0,
-        // }
-      }],
-      xAxes: [{
-      }],
-    },
-    plugins: {
-      datalabels: {
-        display: true,
-        align: 'top',
-        anchor: 'end',
-        color: '#222',
-
-        font: {
-          family: 'FontAwesome',
-          size: 14
-        },
-
+  getChartData() {
+    const startDateString = this.startDate.getFullYear() + '/' + (this.startDate.getMonth() + 1) + '/' + this.startDate.getDate();
+    const endDateString = this.endDate.getFullYear() + '/' + (this.endDate.getMonth() + 1) + '/' + this.endDate.getDate();
+    this.reportService.getChartData(startDateString, endDateString).subscribe({
+      next: (res: any) => {
+        this.revenue = res.revenue;
+        this.ordersByUser = res.order_by_user;
+        this.platesByPopularity = res.plates_by_popularity;
+        this.salesByMonth = res.sales_by_month;
+        console.log(this.salesByMonth);
       },
-      deferred: false
-    },
-  };
-
-  public ChartType = 'bar';
+      error: null,
+      complete: () => {
+      }
+    });
+  }
 
   ngOnInit() {
   }
-
-  public chartClicked(e: any): void {
-    console.log(e);
-  }
-  public chartHovered(e: any): void {
-    console.log(e);
+  onSubmit() {
+    this.getChartData();
   }
 
 }

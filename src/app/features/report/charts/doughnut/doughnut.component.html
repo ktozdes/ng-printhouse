@@ -1,0 +1,29 @@
+
+<div class="chart">
+    <canvas baseChart
+        [data]="chartDatasets"
+        [labels]="chartLabels"
+        [colors]="chartColors"
+        [chartType]="chartType">
+      </canvas>
+</div>
+<div class="table-container">
+    <table class="table is-striped" *ngIf="data">
+        <thead>
+            <tr>
+            <th>Название</th>
+            <th>Количество</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let singleData of data.value; let i = index">
+                <td>{{data.label[i]}}</td>
+                <td>{{data.value[i].value}} (
+                    <span *ngFor="let item of data.value[i].type | keyvalue">
+                        {{item.key}}: {{item.value}}
+                    </span> )
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

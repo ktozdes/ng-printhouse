@@ -62,7 +62,7 @@ export class HeaderComponent implements OnInit {
   }
 
   gotoPeport() {
-    this.router.navigate(['/dashboard/report/balance']);
+    this.router.navigate(['/dashboard/report']);
   }
 
   logOut() {

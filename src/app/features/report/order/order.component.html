@@ -1,9 +1,15 @@
 <div class="tabs is-centered  is-medium is-boxed">
     <ul>
-        <li>
+        <li *appHasPermission="'report chart'">
             <a routerLink="/dashboard/report">
                 <span class="icon is-small"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
                 <span>Главная</span>
+            </a>
+        </li>
+        <li *appHasPermission="'report chart'" >
+            <a routerLink="/dashboard/report/manager">
+                <span class="icon is-small"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
+                <span>Менедрежы</span>
             </a>
         </li>
         <li class="is-active">

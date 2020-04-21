@@ -1,0 +1,25 @@
+
+<div class="chart">
+    <canvas baseChart
+        [datasets]="chartDatasets"
+        [labels]="chartLabels"
+        [options]="chartOptions"
+        [chartType]="chartType"
+        [legend]="chartLegend"></canvas>
+</div>
+<div class="table-container">
+    <table class="table is-striped">
+        <thead>
+            <tr>
+                <th>Месяц</th>
+                <th *ngFor="let singleData of data.value">{{singleData.label}}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let singleLabel of data.label; let i = index">
+                <td>{{singleLabel}}</td>
+                <td *ngFor="let singleData of data.value; let j = index">{{data.value[j].data[i] | currency:KGS:''}} сом</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

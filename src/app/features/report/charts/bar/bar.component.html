@@ -1,0 +1,27 @@
+
+<div class="chart">
+    <canvas baseChart
+        [datasets]="chartDatasets"
+        [labels]="chartLabels"
+        [options]="chartOptions"
+        [chartType]="chartType"
+        [legend]="chartLegend"></canvas>
+</div>
+<div class="table-container">
+    <table class="table is-striped">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th *ngFor="let singleLabel of data.label">{{singleLabel}}</th>
+                <th *ngIf="showTotal">Итого</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let singleValue of data.value; let j = index">
+                <td>{{singleValue.label}}</td>
+                <td *ngFor="let singleLabel of data.label; let i = index">{{data.value[j].data[i] | currency:KGS:''}} сом</td>
+                <th *ngIf="showTotal">{{this.totalValues[j] | currency:KGS:''}} сом</th>
+            </tr>
+        </tbody>
+    </table>
+</div>

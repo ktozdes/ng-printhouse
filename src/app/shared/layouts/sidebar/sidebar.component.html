@@ -9,7 +9,7 @@
         true}" routerLinkActive="is-active">Заказы</a></li>
         <li><ul>
           <li *ngIf="permissions.indexOf('menu order')>=0"><a routerLink="/dashboard/order/create" [routerLinkActiveOptions]="{exact:
-            true}" routerLinkActive="is-active">Новые Заказы</a></li>
+            true}" routerLinkActive="is-active">Новый Заказ</a></li>
         </ul></li>
       <li *ngIf="permissions.indexOf('menu report')>=0"><a routerLink="/dashboard/report/order" routerLinkActive="is-active">Отчет</a></li>
     </ul>

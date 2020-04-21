@@ -74,4 +74,19 @@ export class ReportService {
       })
     );
   }
+
+  getChartData(startDate: string, endDate: string): Observable<any> {
+    const params = new HttpParams()
+    .set('start_time', startDate)
+    .set('end_time', endDate);
+    return this.http.get(`${environment.backendUrl}/report/chart_data`, {params} )
+    .pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError((err, caught) => {
+        return empty();
+      })
+    );
+  }
 }
