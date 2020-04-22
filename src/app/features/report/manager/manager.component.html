@@ -1,16 +1,16 @@
 <div class="tabs is-centered  is-medium is-boxed">
     <ul>
 
-        <li *appHasPermission="'report chart'" class="is-active">
+        <li *appHasPermission="'report chart'">
             <a routerLink="/dashboard/report">
                 <span class="icon is-small"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
                 <span>Главная</span>
             </a>
         </li>
-        <li *appHasPermission="'report chart'" class="is-active">
+        <li *appHasPermission="'report manager'" class="is-active">
             <a routerLink="/dashboard/report/manager">
                 <span class="icon is-small"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></span>
-                <span>Менедрежы</span>
+                <span>Менеджер</span>
             </a>
         </li>
         <li>
@@ -40,6 +40,17 @@
             Фильтры
         </h5>
         <div class="tile has-text-centered">
+            <mat-form-field *ngIf='0'>
+                <mat-label>Сортировать</mat-label>
+                <select matNativeControl [(ngModel)]="sortBy">
+                    <option value="date_desc">Сначала Новые</option>
+                    <option value="date_asc">Сначала Старые</option>
+                    <option value="price_desc">Заказ Убывание</option>
+                    <option value="price_asc">Заказ Возрастание</option>
+                    <option value="name_desc">Имя Убывание</option>
+                    <option value="name_asc">Имя Возрастание</option>
+                </select>
+            </mat-form-field>
             <div class="field is-grouped filter-group">
                 <mat-form-field>
                     <mat-label>Начало: </mat-label>
@@ -55,16 +66,38 @@
                     <mat-datepicker #picker2 startView="year" [startAt]="startDate"></mat-datepicker>
                 </mat-form-field>
 
+                <mat-form-field *appHasPermission="'report chart'">
+                    <mat-label>Менедрежы</mat-label>
+                    <select matNativeControl [(ngModel)]="userID">
+                    <option value="all">Все</option>
+                    <option *ngFor="let user of managerList" [value]='user.id' >{{user.name}}</option>
+                    </select>
+                </mat-form-field>
+
                 <button class="button is-info" (click)="onSubmit()">Искать</button>
             </div>
         </div>
-    </div>
-</div>
-<div class="columns is-multiline">
-    <div class="column">
-        <h5 class="title is-5">
-            Расход/Приход
-        </h5>
-        
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+              <tr>
+                <th>Дата</th>
+                <th>Менеджер</th>
+                <th>Заказано</th>
+                <th>Кол. Пластин</th>
+                <th>Брак Цена</th>
+                <th>Брак Кол</th>
+              </tr>
+            </thead>
+            <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
+              <tr *ngFor="let result of results">
+                <td>{{result.date_name}}</td>
+                <td>{{result.manager_name}}</td>
+                <td>{{result.order_amount | currency:KGS:''}} сом</td>
+                <td>{{result.order_quantity}}</td>
+                <td>{{result.defect_amount | currency:KGS:''}} сом</td>
+                <td>{{result.defect_quantity}}</td>
+              </tr>
+            </tbody>
+        </table>
     </div>
 </div>

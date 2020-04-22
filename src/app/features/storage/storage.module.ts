@@ -6,10 +6,9 @@ import { StorageRoutingModule } from './storage-routing.module';
 import { StorageComponent } from './storage.component';
 import { CreateStorageComponent } from './create-storage/create-storage.component';
 import { EditStorageComponent } from './edit-storage/edit-storage.component';
-import { DefectComponent } from './defect/defect.component';
 
 @NgModule({
-  declarations: [StorageComponent, CreateStorageComponent, EditStorageComponent, DefectComponent],
+  declarations: [StorageComponent, CreateStorageComponent, EditStorageComponent],
   imports: [
     CommonModule,
     StorageRoutingModule,

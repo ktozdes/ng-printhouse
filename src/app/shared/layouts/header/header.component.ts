@@ -54,7 +54,7 @@ export class HeaderComponent implements OnInit {
   }
 
   gotoDefect() {
-    this.router.navigate(['/dashboard/storage/defect/']);
+    this.router.navigate(['/dashboard/payment/defect/']);
   }
 
   gotoProfile() {

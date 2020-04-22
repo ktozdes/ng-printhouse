@@ -17,6 +17,7 @@ export class DefectComponent implements OnInit {
   constructor(private plateService: PlateService,
               private router: Router) {
     this.getPlates();
+    console.log('defect');
   }
 
   ngOnInit() {

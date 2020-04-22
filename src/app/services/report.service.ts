@@ -38,8 +38,27 @@ export class ReportService {
     );
   }
 
-  order(startDate: string, endDate: string, sortBy = '', statusID = 'all', userID = 'all', page = 0): Observable<any> {
+  manager(startDate: string, endDate: string, sortBy = '', userID = 'all', page = 0): Observable<any> {
     const params = new HttpParams()
+    .set('start_time', startDate)
+    .set('end_time', endDate)
+    .set('user_id', userID)
+    .set('sort_by', sortBy)
+    .set('page', page.toString());
+    return this.http.get(`${environment.backendUrl}/report/manager`, {params} )
+    .pipe(
+      map((response: any) => {
+        return response;
+      }),
+      catchError((err, caught) => {
+        return empty();
+      })
+    );
+  }
+
+  order(startDate: string, endDate: string, sortBy = '', statusID = 'all', userID = 'all', page = 0): Observable<any> {
+    const params
+     = new HttpParams()
     .set('start_time', startDate)
     .set('end_time', endDate)
     .set('user_id', userID)

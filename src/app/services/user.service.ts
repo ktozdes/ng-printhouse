@@ -21,6 +21,10 @@ export class UserService {
     return this.http.get(`${environment.backendUrl}/user/list`);
   }
 
+  listManager(): Observable<any> {
+    return this.http.get(`${environment.backendUrl}/user/list_manager`);
+  }
+
   store(user: User, pricing: PlateUser[]): Observable<any> {
     return this.http.post(`${environment.backendUrl}/user/store`, {new_user: user, pricing})
     .pipe(
