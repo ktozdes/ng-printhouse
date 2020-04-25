@@ -77,7 +77,7 @@ export class OrderCreateComponent implements OnInit {
       }
     });
     this.getPlates();
-    if (this.permissionGuard.showMenuItem('order user all')){
+    if (this.permissionGuard.showMenuItem('order user all')) {
       this.getUsers();
     }
   }
@@ -179,6 +179,9 @@ export class OrderCreateComponent implements OnInit {
     if (!this.order.file.id || !this.order.storage.plate_id ||
       (!this.order.c && !this.order.m && !this.order.y && !this.order.k && !this.order.pantone)) {
       console.log('no submit');
+      return ;
+    }
+    if (this.permissionGuard.showMenuItem('order user all') && !this.order.user_id) {
       return ;
     }
     localStorage.setItem('default_plate_id', this.order.storage.plate_id.toString() );

@@ -85,9 +85,13 @@
                 <th>Операция</th>
                 <th>Пластина</th>
                 <th>Добавлял</th>
-                <th>Цена</th>
                 <th>Количество</th>
+                <th>Цена</th>
                 <th>Сумма</th>
+                <th *appHasPermission="'menu storage'">Цена Покупки</th>
+                <th *appHasPermission="'menu storage'">Сумма Покупки</th>
+                <th *appHasPermission="'menu storage'">Прибыль</th>
+                
               </tr>
             </thead>
             <tbody infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="50" (scrolled)="onScroll()">
@@ -96,9 +100,12 @@
                 <td>{{storage.name}}</td>
                 <td>{{storage.plate_name}}</td>
                 <td>{{storage.manager_name}}</td>
-                <td>{{storage.price | currency:KGS:''}} сом</td>
                 <td>{{storage.quantity}}</td>
-                <td>{{storage.summa}}</td>
+                <td>{{storage.price | currency:KGS:''}} сом</td>
+                <td>{{storage.summa | currency:KGS:''}} сом</td>
+                <td *appHasPermission="'menu storage'">{{storage.input_price | currency:KGS:''}} сом</td>
+                <td *appHasPermission="'menu storage'">{{storage.input_summa | currency:KGS:''}} сом</td>
+                <td *appHasPermission="'menu storage'">{{storage.total | currency:KGS:''}} сом</td>
               </tr>
             </tbody>
           </table>

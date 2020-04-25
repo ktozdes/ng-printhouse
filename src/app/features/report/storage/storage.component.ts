@@ -37,7 +37,8 @@ export class StorageComponent implements OnInit {
 
     this.reportService.storage(startDateString, endDateString, this.sortBy, this.plateID, this.page).subscribe({
       next: (res: any) => {
-        this.storages = (this.page <= 1) ? res.storages.data : this.storages.concat(res.storages.data);
+        console.log(res);
+        this.storages = (this.page <= 1) ? res.storages : this.storages.concat(res.storages);
       },
       error: null,
       complete: () => {

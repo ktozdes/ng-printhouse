@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { PermissionGuard } from 'src/app/shared/guards/permission.guard';
 import { ChartsModule } from 'ng2-charts';
 import { ReportService } from 'src/app/services/report.service';
-//import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-report',
@@ -19,7 +18,6 @@ export class ReportComponent implements OnInit {
   constructor(private reportService: ReportService,
               private permissionGuard: PermissionGuard) {
     const monthAgo = new Date();
-    monthAgo.setMonth(monthAgo.getMonth() - 1);
     monthAgo.setDate(1);
     this.startDate = monthAgo;
     this.endDate = new Date();
