@@ -17,6 +17,7 @@ import { HasPermissionDirective } from '../shared/directives/has-permission.dire
 import { OrderPricePipe } from 'src/app/pipes/order-price.pipe';
 import { FormsModule } from '@angular/forms';
 import { TestDirectiveDirective } from './directives/test-directive.directive';
+import { PlateBadgeComponent } from './plate-badge/plate-badge.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TestDirectiveDirective } from './directives/test-directive.directive';
     NotificationComponent,
     RatingComponent,
     TestDirectiveDirective,
+    PlateBadgeComponent,
   ],
   imports: [
     CommonModule,

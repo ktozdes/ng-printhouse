@@ -25,6 +25,9 @@
               <a  class="navbar-item" href="javascript:void(0)" (click)="gotoDefect()" *ngIf="permissions.indexOf('menu defect')>=0">
                 Брак
               </a>
+              <a  class="navbar-item" href="javascript:void(0)" *ngIf="permissions.indexOf('menu dashboard')>=0">
+                <app-plate-badge></app-plate-badge>
+              </a>
             </div>
         
             <div class="navbar-end">
