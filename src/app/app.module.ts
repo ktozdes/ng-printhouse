@@ -14,7 +14,6 @@ import { PageNotFoundComponent } from './features/page-not-found/page-not-found.
 import { SimpleDemoComponent } from './simple-demo-component/simple-demo-component.component';
 import { AppComponent } from './app.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,
